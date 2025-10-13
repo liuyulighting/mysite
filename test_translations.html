@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翻译测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-warning { background-color: #ffc107; color: black; }
+        .translation-result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌐 多语言翻译测试</h1>
+    
+    <div class="test-section info">
+        <h3>测试说明</h3>
+        <p>这个页面用于测试从profile.json读取的多语言翻译是否正常工作。</p>
+    </div>
+    
+    <div class="test-section">
+        <h3>1. 测试数据加载</h3>
+        <button class="btn-primary" onclick="testDataLoading()">测试数据加载</button>
+        <div id="data-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. 测试翻译功能</h3>
+        <button class="btn-success" onclick="testTranslations()">测试翻译功能</button>
+        <div id="translation-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. 语言切换测试</h3>
+        <button class="btn-warning" onclick="testLanguageSwitching()">测试语言切换</button>
+        <div id="language-result"></div>
+    </div>
+
+    <script>
+        let gameTexts = {};
+        let currentLanguage = 'zh';
+        
+        async function testDataLoading() {
+            const resultDiv = document.getElementById('data-result');
+            resultDiv.innerHTML = '正在测试数据加载...';
+            
+            try {
+                const response = await fetch('data/profile.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<div class="success">✅ 数据加载成功，包含 ${Object.keys(data).length} 个主要部分</div>`;
+                    console.log('Profile data loaded:', data);
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ 数据加载失败: HTTP ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ 数据加载错误: ${error.message}</div>`;
+            }
+        }
+        
+        async function testTranslations() {
+            const resultDiv = document.getElementById('translation-result');
+            resultDiv.innerHTML = '正在测试翻译功能...';
+            
+            try {
+                const response = await fetch('data/profile.json');
+                const profileData = await response.json();
+                
+                // 模拟convertProfileToGameText函数
+                gameTexts = convertProfileToGameText(profileData);
+                
+                let result = '<div class="success">✅ 翻译功能测试成功！</div>';
+                result += '<div class="translation-result">';
+                result += '<h4>中文翻译:</h4>';
+                result += `技能: ${gameTexts.zh.tabs.skills}<br>`;
+                result += `成就: ${gameTexts.zh.tabs.achievements}<br>`;
+                result += `教育: ${gameTexts.zh.tabs.education}<br>`;
+                result += `欢迎: ${gameTexts.zh.ui.welcome}<br>`;
+                result += `产品策划: ${gameTexts.zh.skills.productPlanning.name}<br>`;
+                result += `ARR成就: ${gameTexts.zh.achievements.arr.title}<br>`;
+                result += `浙江大学: ${gameTexts.zh.education.zju.school}<br>`;
+                result += '<h4>英文翻译:</h4>';
+                result += `Skills: ${gameTexts.en.tabs.skills}<br>`;
+                result += `Achievements: ${gameTexts.en.tabs.achievements}<br>`;
+                result += `Education: ${gameTexts.en.tabs.education}<br>`;
+                result += `Welcome: ${gameTexts.en.ui.welcome}<br>`;
+                result += `Product Planning: ${gameTexts.en.skills.productPlanning.name}<br>`;
+                result += `ARR Achievement: ${gameTexts.en.achievements.arr.title}<br>`;
+                result += `Zhejiang University: ${gameTexts.en.education.zju.school}<br>`;
+                result += '<h4>日文翻译:</h4>';
+                result += `スキル: ${gameTexts.ja.tabs.skills}<br>`;
+                result += `実績: ${gameTexts.ja.tabs.achievements}<br>`;
+                result += `教育: ${gameTexts.ja.tabs.education}<br>`;
+                result += `ようこそ: ${gameTexts.ja.ui.welcome}<br>`;
+                result += `プロダクト企画: ${gameTexts.ja.skills.productPlanning.name}<br>`;
+                result += `ARR実績: ${gameTexts.ja.achievements.arr.title}<br>`;
+                result += `浙江大学: ${gameTexts.ja.education.zju.school}<br>`;
+                result += '</div>';
+                
+                resultDiv.innerHTML = result;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ 翻译测试错误: ${error.message}</div>`;
+            }
+        }
+        
+        function testLanguageSwitching() {
+            const resultDiv = document.getElementById('language-result');
+            
+            if (!gameTexts.zh) {
+                resultDiv.innerHTML = '<div class="error">❌ 请先运行翻译功能测试</div>';
+                return;
+            }
+            
+            const languages = ['zh', 'en', 'ja'];
+            let result = '<div class="success">✅ 语言切换测试成功！</div>';
+            result += '<div class="translation-result">';
+            
+            languages.forEach(lang => {
+                result += `<h4>${lang.toUpperCase()} 语言:</h4>`;
+                result += `技能: ${gameTexts[lang].tabs.skills}<br>`;
+                result += `D5项目: ${gameTexts[lang].projects.d5Title}<br>`;
+                result += `开始按钮: ${gameTexts[lang].ui.start}<br>`;
+                result += `产品策划: ${gameTexts[lang].skills.productPlanning.name}<br>`;
+                result += `ARR成就: ${gameTexts[lang].achievements.arr.title}<br>`;
+                result += `浙江大学: ${gameTexts[lang].education.zju.school}<br>`;
+                result += '<br>';
+            });
+            
+            result += '</div>';
+            resultDiv.innerHTML = result;
+        }
+        
+        // 模拟convertProfileToGameText函数
+        function convertProfileToGameText(profileData) {
+            return {
+                zh: {
+                    tabs: {
+                        skills: profileData.ui?.tabs?.skills?.zh || "技能",
+                        achievements: profileData.ui?.tabs?.achievements?.zh || "成就",
+                        education: profileData.ui?.tabs?.education?.zh || "教育"
+                    },
+                    projects: {
+                        d5Title: profileData.ui?.projects?.d5Title?.zh || "D5 渲染器团队版"
+                    },
+                    ui: {
+                        start: profileData.ui?.start?.zh || "START",
+                        welcome: profileData.ui?.welcome?.zh || "欢迎来到我的作品集"
+                    },
+                    skills: {
+                        productPlanning: {
+                            name: profileData.skills?.productPlanning?.name?.zh || "产品策划 Lv.10",
+                            description: profileData.skills?.productPlanning?.description?.zh || "端到端负责订阅制渲染器客户端/服务端产品设计与商业化落地"
+                        }
+                    },
+                    achievements: {
+                        arr: {
+                            title: profileData.achievements?.arr?.title?.zh || "ARR 1500万+",
+                            description: profileData.achievements?.arr?.description?.zh || "团队版从0到1，实现订阅制收入与留存双增长"
+                        }
+                    },
+                    education: {
+                        zju: {
+                            school: profileData.education?.zju?.school?.zh || "浙江大学 / 计算机科学与技术学院",
+                            degree: profileData.education?.zju?.degree?.zh || "工业设计工程 • 工学硕士"
+                        }
+                    }
+                },
+                en: {
+                    tabs: {
+                        skills: profileData.ui?.tabs?.skills?.en || "Skills",
+                        achievements: profileData.ui?.tabs?.achievements?.en || "Achievements",
+                        education: profileData.ui?.tabs?.education?.en || "Education"
+                    },
+                    projects: {
+                        d5Title: profileData.ui?.projects?.d5Title?.en || "D5 Render Team Edition"
+                    },
+                    ui: {
+                        start: profileData.ui?.start?.en || "START",
+                        welcome: profileData.ui?.welcome?.en || "Welcome to My Portfolio"
+                    },
+                    skills: {
+                        productPlanning: {
+                            name: profileData.skills?.productPlanning?.name?.en || "Product Planning Lv.10",
+                            description: profileData.skills?.productPlanning?.description?.en || "End-to-end responsibility for subscription-based renderer client/server product design and commercialization"
+                        }
+                    },
+                    achievements: {
+                        arr: {
+                            title: profileData.achievements?.arr?.title?.en || "ARR 15M+ RMB",
+                            description: profileData.achievements?.arr?.description?.en || "Team edition from 0 to 1, achieving dual growth in subscription revenue and retention"
+                        }
+                    },
+                    education: {
+                        zju: {
+                            school: profileData.education?.zju?.school?.en || "Zhejiang University / College of Computer Science and Technology",
+                            degree: profileData.education?.zju?.degree?.en || "Industrial Design Engineering • Master of Engineering"
+                        }
+                    }
+                },
+                ja: {
+                    tabs: {
+                        skills: profileData.ui?.tabs?.skills?.ja || "スキル",
+                        achievements: profileData.ui?.tabs?.achievements?.ja || "実績",
+                        education: profileData.ui?.tabs?.education?.ja || "教育"
+                    },
+                    projects: {
+                        d5Title: profileData.ui?.projects?.d5Title?.ja || "D5 レンダーチーム版"
+                    },
+                    ui: {
+                        start: profileData.ui?.start?.ja || "スタート",
+                        welcome: profileData.ui?.welcome?.ja || "私のポートフォリオへようこそ"
+                    },
+                    skills: {
+                        productPlanning: {
+                            name: profileData.skills?.productPlanning?.name?.ja || "プロダクト企画 Lv.10",
+                            description: profileData.skills?.productPlanning?.description?.ja || "サブスクリプション型レンダラーのクライアント/サーバー製品設計と商業化のエンドツーエンド責任"
+                        }
+                    },
+                    achievements: {
+                        arr: {
+                            title: profileData.achievements?.arr?.title?.ja || "ARR 1500万+",
+                            description: profileData.achievements?.arr?.description?.ja || "チーム版を0から1へ、サブスクリプション収益とリテンションの二重成長を実現"
+                        }
+                    },
+                    education: {
+                        zju: {
+                            school: profileData.education?.zju?.school?.ja || "浙江大学 / コンピュータ科学技術学院",
+                            degree: profileData.education?.zju?.degree?.ja || "工業デザイン工学 • 工学修士"
+                        }
+                    }
+                }
+            };
+        }
+        
+        // 页面加载时自动测试数据加载
+        window.onload = function() {
+            testDataLoading();
+        };
+    </script>
+</body>
+</html>

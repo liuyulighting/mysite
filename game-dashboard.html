@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu Liu - Game Dashboard Portfolio</title>
+    <meta name="description" content="Yu Liu's game-style interactive portfolio dashboard">
+    <link rel="stylesheet" href="css/game-dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.77/build/spline-viewer.js"></script>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Game Dashboard -->
+        <div class="game-dashboard">
+            <!-- Language Switcher -->
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="zh" onclick="console.log('🔥 中文 button clicked via onclick'); console.log('🔥 gameDashboardInstance exists:', !!window.gameDashboardInstance); if(window.gameDashboardInstance) { console.log('🔥 Calling switchLanguage(zh)'); window.gameDashboardInstance.switchLanguage('zh'); } else { console.error('🔥 gameDashboardInstance not found!'); }">中文</button>
+                <button class="lang-btn" data-lang="en" onclick="console.log('🔥 English button clicked via onclick'); console.log('🔥 gameDashboardInstance exists:', !!window.gameDashboardInstance); if(window.gameDashboardInstance) { console.log('🔥 Calling switchLanguage(en)'); window.gameDashboardInstance.switchLanguage('en'); } else { console.error('🔥 gameDashboardInstance not found!'); }">English</button>
+                <button class="lang-btn" data-lang="ja" onclick="console.log('🔥 日本語 button clicked via onclick'); console.log('🔥 gameDashboardInstance exists:', !!window.gameDashboardInstance); if(window.gameDashboardInstance) { console.log('🔥 Calling switchLanguage(ja)'); window.gameDashboardInstance.switchLanguage('ja'); } else { console.error('🔥 gameDashboardInstance not found!'); }">日本語</button>
+            </div>
+            <!-- Left Panel: About Me -->
+            <section class="about-me-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">About Yu</h2>
+                </div>
+
+                <!-- Avatars Section -->
+                <div class="avatars-section">
+                    <div class="avatar-frame">
+                        <div class="avatar-container">
+                            <img src="assets/avatar.svg" alt="Yu Liu Avatar" class="avatar">
+                            <div class="avatar-glow"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profiles Section -->
+                <div class="profiles-section">
+                    <div class="profile-tabs">
+                        <button class="tab-btn active" data-tab="skills">技能</button>
+                        <button class="tab-btn" data-tab="achievements">成就</button>
+                        <button class="tab-btn" data-tab="education">教育</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- Skills Tab -->
+                        <div class="tab-panel active" id="skills-panel">
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">产品策划 Lv.10</span>
+                                </div>
+                                <div class="skill-description">端到端负责订阅制渲染器客户端/服务端产品设计与商业化落地</div>
+                                <div class="skill-cooldown">主动 • CD: 持续</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">交互设计 Lv.9</span>
+                                </div>
+                                <div class="skill-description">复杂业务的信息架构与流程重设计，提升交付效率与数据透明度</div>
+                                <div class="skill-cooldown">主动 • CD: 持续</div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-header">
+                                    <span class="skill-name">数据与AI工具 Lv.8</span>
+                                </div>
+                                <div class="skill-description">Tableau/GA/SQL + AI工作流，驱动产品增长与功能优化</div>
+                                <div class="skill-cooldown">主动 • CD: 持续</div>
+                            </div>
+                        </div>
+
+                        <!-- Achievements Tab -->
+                        <div class="tab-panel" id="achievements-panel">
+                            <div class="achievement-item">
+                                <div class="achievement-icon">💰</div>
+                                <div class="achievement-content">
+                                    <div class="achievement-title">ARR 1500万+</div>
+                                    <div class="achievement-desc">团队版从0到1，实现订阅制收入与留存双增长</div>
+                                </div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-icon">🧾</div>
+                                <div class="achievement-content">
+                                    <div class="achievement-title">两项国家发明专利（第一发明人）</div>
+                                    <div class="achievement-desc">CN112767099A、CN112801547A</div>
+                                </div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-icon">🏅</div>
+                                <div class="achievement-content">
+                                    <div class="achievement-title">IDEA 银奖 & 红点奖</div>
+                                    <div class="achievement-desc">国际工业设计大奖</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Education Tab -->
+                        <div class="tab-panel" id="education-panel">
+                            <div class="education-item">
+                                <div class="education-year">2017.09 – 2020.03</div>
+                                <div class="education-content">
+                                    <div class="education-school">浙江大学 / 计算机科学与技术学院</div>
+                                    <div class="education-title">工业设计工程 • 工学硕士</div>
+                                </div>
+                            </div>
+                            <div class="education-item">
+                                <div class="education-year">2013.07 – 2017.09</div>
+                                <div class="education-content">
+                                    <div class="education-school">大连民族大学 / 设计学院</div>
+                                    <div class="education-title">工业设计 • 工学学士</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Middle Panel: Game UI -->
+            <section class="game-ui-panel">
+                <!-- Game Viewer -->
+                <div class="game-viewer">
+                    <div class="viewport" id="game-viewport">
+                        <div class="viewport-content">
+                            <div class="welcome-message">
+                                <h3>欢迎来到我的作品集</h3>
+                                <p>点击START按钮开始探索</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Indicator Text -->
+                <div class="indicator-text">
+                    <span class="cartridge-info">Cartridge: <span id="current-cartridge">-</span></span>
+                    <span class="level-info">Level: <span id="current-level">-</span></span>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <!-- AWSD Controls -->
+                    <div class="awsd-controls">
+                        <div class="control-row">
+                            <button class="control-btn" data-direction="up">W</button>
+                        </div>
+                        <div class="control-row">
+                            <button class="control-btn" data-direction="left">A</button>
+                            <button class="control-btn" data-direction="down">S</button>
+                            <button class="control-btn" data-direction="right">D</button>
+                        </div>
+                    </div>
+
+                    <!-- START Button -->
+                    <button class="start-button" id="start-button">
+                        <span>START</span>
+                    </button>
+
+                    <!-- A/B Buttons -->
+                    <div class="action-buttons">
+                        <button class="action-btn a-button" data-action="confirm">A</button>
+                        <button class="action-btn b-button" data-action="back">B</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Sidebar -->
+            <section class="sidebar-panel">
+                <!-- Contact Module -->
+                <div class="contact-module">
+                    <h3 class="module-title">CONTACT</h3>
+                    <div class="contact-content">
+                        <div class="contact-item">
+                            <span class="contact-label">📞 Phone</span>
+                            <span class="contact-value">+86 18069860189</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">📧 Email</span>
+                            <span class="contact-value">liuyulighting@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">🌐 Website</span>
+                            <span class="contact-value">liuyulighting.github.io</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">📍 Location</span>
+                            <span class="contact-value">Nanjing, China</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Module -->
+                <div class="game-module">
+                    <h3 class="module-title">GAME CONSOLE</h3>
+                    <div class="game-console-container">
+                        <spline-viewer url="https://prod.spline.design/98YuGPLW5dt2WE9T/scene.splinecode"></spline-viewer>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Cartridge Selection Modal -->
+    <div class="modal-overlay" id="cartridge-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">选择游戏卡带</h2>
+                <button class="modal-close" id="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">从收藏中选择一个游戏开始你的冒险</p>
+                <div class="cartridge-grid">
+                    <div class="cartridge-card" data-cartridge="d5">
+                        <div class="cartridge-image">
+                            <div class="cartridge-visual d5-cartridge">
+                                <span class="cartridge-label">D5</span>
+                            </div>
+                            <div class="year-tag">2024</div>
+                        </div>
+                        <div class="cartridge-info">
+                            <h3 class="cartridge-title">D5 Render</h3>
+                            <div class="cartridge-genre">实时渲染</div>
+                            <p class="cartridge-desc">专业的实时渲染引擎，为设计师提供强大的3D可视化工具</p>
+                            <button class="select-btn">选择此游戏</button>
+                        </div>
+                    </div>
+                    <div class="cartridge-card" data-cartridge="kujiale">
+                        <div class="cartridge-image">
+                            <div class="cartridge-visual kujiale-cartridge">
+                                <span class="cartridge-label">酷家乐</span>
+                            </div>
+                            <div class="year-tag">2023</div>
+                        </div>
+                        <div class="cartridge-info">
+                            <h3 class="cartridge-title">Kujiale</h3>
+                            <div class="cartridge-genre">家装设计</div>
+                            <p class="cartridge-desc">领先的家装设计平台，提供从设计到施工的全流程解决方案</p>
+                            <button class="select-btn">选择此游戏</button>
+                        </div>
+                    </div>
+                    <div class="cartridge-card" data-cartridge="projects">
+                        <div class="cartridge-image">
+                            <div class="cartridge-visual projects-cartridge">
+                                <span class="cartridge-label">项目</span>
+                            </div>
+                            <div class="year-tag">2024</div>
+                        </div>
+                        <div class="cartridge-info">
+                            <h3 class="cartridge-title">Side Projects</h3>
+                            <div class="cartridge-genre">个人项目</div>
+                            <p class="cartridge-desc">探索创新想法，实践前沿技术，打造有趣的产品体验</p>
+                            <button class="select-btn">选择此游戏</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/game-dashboard.js"></script>
+</body>
+</html>
