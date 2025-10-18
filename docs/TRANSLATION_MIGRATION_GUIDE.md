@@ -127,7 +127,7 @@ python3 update_translations.py
 
 ### 方法三：使用文本编辑器
 
-访问 `game-text-editor.html` 进行可视化编辑
+直接编辑 `data/profile.json` 文件
 
 ## 🔍 验证修改
 
@@ -195,7 +195,6 @@ python3 update_translations.py
 - `data/profile.json` - 翻译数据文件
 - `update_translations.py` - 翻译更新脚本
 - `test_translations.html` - 翻译测试页面
-- `game-text-editor.html` - 可视化编辑器
 
 ## 🎉 完成状态
 
@@ -205,4 +204,4 @@ python3 update_translations.py
 ✅ 保持向后兼容性  
 ✅ 完整的文档和指南  
 
-现在您可以通过修改`data/profile.json`文件来更新所有UI翻译，无需修改JavaScript代码！
+现在您可以直接修改`data/profile.json`文件来更新所有UI翻译，无需修改JavaScript代码！

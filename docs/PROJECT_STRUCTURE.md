@@ -10,7 +10,6 @@
 mysite.github.io/
 ├── 📄 主页面文件
 │   ├── game-dashboard.html          # 游戏仪表板主页面
-│   └── game-text-editor.html        # 游戏文本编辑器
 │
 ├── 🎨 样式文件 (css/)
 │   └── game-dashboard.css           # 游戏仪表板专用样式
@@ -50,11 +49,6 @@ mysite.github.io/
 - **作用**: 游戏仪表板的主页面
 - **功能**: 展示个人作品集，包含卡带系统、项目轮播、游戏控制等
 - **特点**: 响应式设计，支持键盘和鼠标操作
-
-#### `game-text-editor.html`
-- **作用**: 专门用于编辑游戏仪表板文本的可视化编辑器
-- **功能**: 实时编辑多语言文本，支持中文、英文、日文
-- **特点**: 与游戏界面完全集成，修改后立即生效
 
 #### `text-editor.html`
 - **作用**: 通用的多语言文本编辑器
@@ -133,7 +127,7 @@ mysite.github.io/
 
 1. **文本编辑流程**:
    ```
-   game-text-editor.html → 编辑文本 → 更新profile.json → game-dashboard.js → 界面更新
+   直接编辑profile.json → game-dashboard.js → 界面更新
    ```
 
 2. **多语言流程**:

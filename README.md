@@ -45,7 +45,6 @@ open http://localhost:8080/game-dashboard.html
 ```
 mysite.github.io/
 ├── game-dashboard.html          # 主页面（游戏仪表板）
-├── game-text-editor.html        # 文本编辑器
 ├── text-manager.py              # 命令行文本管理工具
 ├── css/
 │   ├── game-dashboard.css       # 游戏仪表板样式
@@ -72,33 +71,31 @@ mysite.github.io/
 - **状态指示器**：显示当前卡带和关卡信息
 
 ### 文本管理系统
-- **可视化编辑器**：`game-text-editor.html` 专门管理游戏界面文本
 - **多语言支持**：中文、英文、日文三种语言
-- **实时编辑**：修改后立即在界面中生效
+- **数据驱动**：通过 `data/profile.json` 管理多语言内容
 - **命令行工具**：`text-manager.py` 支持批量操作
 
 ### 多语言支持
 - **内置多语言系统**：集成在游戏仪表板中
 - **支持语言**：中文、英文、日文三种语言
 - **数据驱动**：通过 `data/profile.json` 管理多语言内容
-- **实时编辑**：使用 `game-text-editor.html` 编辑多语言文本
 
 ## 📝 内容管理
 
 ### 修改个人信息
-使用 `game-text-editor.html` 编辑：
+直接编辑 `data/profile.json` 文件：
 - 姓名、职位、联系方式
 - 工作经历描述
 - 项目标题和描述
 - 界面文本
 
 ### 添加新内容
-1. 在文本编辑器中添加新的文本分组
+1. 在 `data/profile.json` 中添加新的文本分组
 2. 更新对应的HTML结构
 3. 在JavaScript中添加相应的处理逻辑
 
 ### 多语言翻译
-1. 使用 `game-text-editor.html` 编辑多语言文本
+1. 直接编辑 `data/profile.json` 中的多语言文本
 2. 修改 `data/profile.json` 中的多语言字段
 3. 使用命令行工具验证和同步
 
@@ -124,7 +121,6 @@ mysite.github.io/
 ## 🔧 开发工具
 
 ### 文本编辑器
-- **Web编辑器**：`game-text-editor.html` - 可视化编辑
 - **命令行工具**：`text-manager.py` - 批量操作
 - **JSON验证**：自动检查格式正确性
 
@@ -136,7 +132,6 @@ mysite.github.io/
 ## 📚 文档
 
 - [游戏仪表板指南](docs/GAME_DASHBOARD_GUIDE.md) - 详细的功能说明
-- [文本编辑器指南](docs/TEXT_EDITOR_GUIDE.md) - 文本管理方法
 - [多语言指南](docs/MULTILINGUAL_GUIDE.md) - 多语言支持说明
 
 ## 🚀 部署

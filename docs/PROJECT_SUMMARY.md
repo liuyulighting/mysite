@@ -38,7 +38,6 @@
 mysite.github.io/
 ├── 📄 主页面文件
 │   ├── game-dashboard.html          # 游戏仪表板主页面
-│   ├── game-text-editor.html        # 游戏文本编辑器
 │   └── text-editor.html             # 通用文本编辑器
 │
 ├── 🎨 样式文件 (css/)
@@ -100,7 +99,6 @@ mysite.github.io/
 - **数据**: `data/profile.json`
 
 ### 文本管理系统
-- **可视化编辑器**: `game-text-editor.html`
 - **通用编辑器**: `text-editor.html`
 - **命令行工具**: `text-manager.py`
 - **多语言支持**: `js/i18n.js`

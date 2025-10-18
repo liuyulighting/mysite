@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘禹 - 产品经理作品集</title>
+<<<<<<< HEAD
+    <meta name="description" content="刘禹的产品经理作品集，采用Macintosh Classic风格展示D5渲染器、酷家乐等项目经验">
+    <meta name="keywords" content="产品经理,刘禹,D5渲染器,酷家乐,作品集,Macintosh Classic">
+=======
+    <meta name="description" content="刘禹的产品经理作品集，采用游戏控制台风格展示D5渲染器、酷家乐等项目经验，支持中英日三语">
+    <meta name="keywords" content="产品经理,刘禹,D5渲染器,酷家乐,作品集,游戏控制台,多语言">
+>>>>>>> bed946731843f23b30bf22d6b15cd49cf6218b10
+    <meta name="author" content="刘禹">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="刘禹 - 产品经理作品集">
+<<<<<<< HEAD
+    <meta property="og:description" content="Macintosh Classic风格的产品经理作品集，展示D5渲染器、酷家乐等项目经验">
+=======
+    <meta property="og:description" content="游戏控制台风格的产品经理作品集，展示D5渲染器、酷家乐等项目经验">
+>>>>>>> bed946731843f23b30bf22d6b15cd49cf6218b10
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liuyulighting.github.io/mysite.github.io/">
+    <meta property="og:image" content="https://liuyulighting.github.io/mysite.github.io/assets/avatar.svg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/avatar.svg">
+    
+    <style>
+<<<<<<< HEAD
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: url('assets/background.jpg') center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+=======
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a2332 100%);
+>>>>>>> bed946731843f23b30bf22d6b15cd49cf6218b10
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+<<<<<<< HEAD
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 黑客帝国字符瀑布特效 */
+        .digital-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .rain-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            color: #00ff00;
+            opacity: 0.8;
+            animation: rain-fall linear infinite;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+        
+        .rain-column.small {
+            font-size: 10px;
+            opacity: 0.6;
+        }
+        
+        .rain-column.medium {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .rain-column.large {
+            font-size: 18px;
+            opacity: 1;
+        }
+        
+        @keyframes rain-fall {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.3;
+            }
+            15% {
+                opacity: 0.8;
+            }
+            85% {
+                opacity: 0.8;
+            }
+            95% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+        
+        .rain-column:nth-child(odd) {
+            color: #00ff41;
+        }
+        
+        .rain-column:nth-child(even) {
+            color: #00ff00;
+        }
+        
+        .rain-column:nth-child(3n) {
+            color: #39ff14;
+        }
+        
+        .rain-column:nth-child(4n) {
+            color: #00ff88;
+        }
+        
+        .rain-column:nth-child(5n) {
+            color: #00ffaa;
+        }
+        
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.3);
+            animation: containerEntrance 2s linear forwards;
+        }
+        
+        @keyframes containerEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(50px);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(0.8) translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .mockup-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mockup-svg {
+            width: 480px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+        }
+        
+        .screen-frame {
+            position: absolute;
+            width: 220px;
+            height: 180px;
+            top: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 16px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #ffffff;
+        }
+        
+        /* 自定义滚动条样式 */
+        .screen-frame::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .screen-frame::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .screen-frame::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+        
+        .screen-frame::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .screen-content {
+            width: 100%;
+            min-height: 100%;
+            overflow: visible;
+            position: relative;
+        }
+        
+        .typing-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #ffffff;
+            opacity: 1;
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #ffffff;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+        
+        .start-button {
+            position: relative;
+            margin: 16px auto 0;
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #333333;
+            padding: 8px 16px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 2px 2px 0px #333333;
+            align-self: center;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            margin: 20px auto 20px;
+        }
+        
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .start-button:hover::before {
+            left: 100%;
+        }
+        
+        .start-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .start-button:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 1px 1px 0px #333333;
+        }
+        
+        .start-button.show {
+            opacity: 1;
+            animation: slideUp 0.5s ease-out forwards, pulse 2s ease-in-out infinite 1s;
+        }
+        
+        .start-icon {
+            width: 16px;
+            height: 16px;
+            background: #00ff00;
+            border-radius: 50%;
+            position: relative;
+            animation: iconPulse 1.5s ease-in-out infinite;
+        }
+        
+        .start-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid #000000;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            margin-left: 2px;
+        }
+        
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 8px rgba(0, 255, 0, 0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 2px 2px 0px #333333;
+            }
+            50% {
+                box-shadow: 2px 2px 0px #333333, 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .back-button.show {
+            opacity: 1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        /* 转场动画 */
+        .transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in-out;
+        }
+        
+        .transition-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .transition-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ff00;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0;
+            animation: transitionText 2.5s ease-in-out;
+        }
+        
+        .transition-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 16px;
+            border: 3px solid #00ff00;
+            border-top: 3px solid transparent;
+=======
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4a9eff, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #4a9eff, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #374151;
+            border-top: 2px solid #4a9eff;
+>>>>>>> bed946731843f23b30bf22d6b15cd49cf6218b10
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+<<<<<<< HEAD
+        @keyframes transitionText {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8) translateY(20px);
+            }
+            15% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) translateY(0);
+            }
+            85% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9) translateY(-10px);
+            }
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            margin-left: 8px;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: loadingDots 1.5s infinite;
+        }
+        
+        @keyframes loadingDots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* 添加粒子效果 */
+        .transition-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10%, 90% {
+                opacity: 1;
+                transform: translateY(50vh) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(0) scale(1.2);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mockup-svg {
+                width: 360px;
+                height: auto;
+            }
+            
+            .screen-frame {
+                width: 165px;
+                height: 135px;
+                top: 36px;
+                padding: 12px;
+                font-size: 10px;
+            }
+            
+            .start-button {
+                padding: 6px 12px;
+                font-size: 10px;
+                margin-top: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .mockup-svg {
+                width: 300px;
+                height: auto;
+            }
+            
+            .screen-frame {
+                width: 137px;
+                height: 112px;
+                top: 30px;
+                padding: 10px;
+                font-size: 9px;
+            }
+=======
+        .manual-link {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(74, 158, 255, 0.1);
+            border: 1px solid #4a9eff;
+            border-radius: 8px;
+            color: #4a9eff;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .manual-link:hover {
+            background: rgba(74, 158, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .feature {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+>>>>>>> bed946731843f23b30bf22d6b15cd49cf6218b10
+        }
+    </style>
+</head>
+<body>
+<<<<<<< HEAD
+    <!-- 黑客帝国字符瀑布特效 -->
+    <div class="digital-rain" id="digitalRain"></div>
+    
+    <div class="container">
+        <div class="mockup-container">
+            <!-- 使用现有的mockup.svg文件 -->
+            <img src="assets/mockup.svg" alt="Macintosh Classic Mockup" class="mockup-svg">
+            
+            <!-- ScreenFrame 文本展示区块 -->
+            <div class="screen-frame">
+                <div class="screen-content" id="screenContent">
+                    <!-- 文本内容将通过JavaScript动态添加 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 返回按钮（在game-dashboard页面显示） -->
+    <button class="back-button" id="backButton" onclick="goBack()">
+        ← BACK
+    </button>
+    
+    <!-- 转场动画覆盖层 -->
+    <div class="transition-overlay" id="transitionOverlay">
+        <div class="transition-particles" id="transitionParticles"></div>
+        <div class="transition-content">
+            <div class="transition-icon"></div>
+            <div>LOADING GAME DASHBOARD</div>
+            <div class="loading-dots"></div>
+=======
+    <div class="container">
+        <div class="logo">🎮</div>
+        
+        <h1>刘禹 · 产品经理作品集</h1>
+        <p class="subtitle">游戏控制台风格的个人作品集，展示D5渲染器、酷家乐等项目经验</p>
+        
+        <div class="loading">
+            <div class="spinner"></div>
+            <span>正在加载游戏控制台...</span>
+        </div>
+        
+        <a href="game-dashboard.html" class="manual-link">
+            如果页面没有自动跳转，请点击这里进入作品集
+        </a>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">游戏化设计</div>
+                <div class="feature-desc">卡带、关卡、技能系统</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🌐</div>
+                <div class="feature-title">多语言支持</div>
+                <div class="feature-desc">中文、英文、日文</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div class="feature-title">响应式设计</div>
+                <div class="feature-desc">适配各种设备</div>
+            </div>
+>>>>>>> bed946731843f23b30bf22d6b15cd49cf6218b10
+        </div>
+    </div>
+
+    <script>
+<<<<<<< HEAD
+        // 文本内容
+        const textContent = `Hi, I'm Yu Liu from
+Nanjing, China
+— a product manager passionate
+about building things from the
+ground up.
+
+I love turning complex problems
+into simple, elegant solutions that
+users actually want to use.`;
+
+        let currentText = '';
+        let currentIndex = 0;
+        let isTyping = false;
+        let typingSpeed = 30; // 打字速度（毫秒）
+        
+        // 黑客帝国字符瀑布相关变量
+        const matrixChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+        let rainColumns = [];
+        
+        // 检查是否从game-dashboard页面返回
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromGame = urlParams.get('from') === 'game';
+        
+        if (fromGame) {
+            // 如果是从game-dashboard返回，显示返回按钮
+            document.getElementById('backButton').classList.add('show');
+        }
+        
+        // 创建字符瀑布特效
+        function createDigitalRain() {
+            const digitalRain = document.getElementById('digitalRain');
+            const screenWidth = window.innerWidth;
+            const columnCount = Math.floor(screenWidth / 12); // 每12px一列，增加密度
+            
+            for (let i = 0; i < columnCount; i++) {
+                const column = document.createElement('div');
+                
+                // 随机选择字符大小
+                const sizeClasses = ['small', 'medium', 'large'];
+                const randomSize = sizeClasses[Math.floor(Math.random() * sizeClasses.length)];
+                column.className = `rain-column ${randomSize}`;
+                
+                column.style.left = (i * 12) + 'px';
+                column.style.animationDelay = Math.random() * 8 + 's';
+                column.style.animationDuration = (4 + Math.random() * 4) + 's';
+                
+                // 生成随机字符
+                let columnText = '';
+                const charCount = 30 + Math.floor(Math.random() * 40); // 增加字符数量
+                for (let j = 0; j < charCount; j++) {
+                    columnText += matrixChars[Math.floor(Math.random() * matrixChars.length)] + '<br>';
+                }
+                column.innerHTML = columnText;
+                
+                digitalRain.appendChild(column);
+                rainColumns.push(column);
+            }
+        }
+        
+        // 更新字符瀑布
+        function updateDigitalRain() {
+            rainColumns.forEach(column => {
+                let columnText = '';
+                const charCount = 30 + Math.floor(Math.random() * 40); // 增加字符数量
+                for (let j = 0; j < charCount; j++) {
+                    columnText += matrixChars[Math.floor(Math.random() * matrixChars.length)] + '<br>';
+                }
+                column.innerHTML = columnText;
+            });
+        }
+        
+        function typeText() {
+            if (currentIndex < textContent.length) {
+                currentText += textContent.charAt(currentIndex);
+                document.getElementById('screenContent').innerHTML = 
+                    '<div class="typing-text">' + currentText + '</div><span class="typing-cursor"></span>';
+                
+                // 自动滚动到底部，确保最新文字可见
+                const screenFrame = document.querySelector('.screen-frame');
+                screenFrame.scrollTop = screenFrame.scrollHeight;
+                
+                currentIndex++;
+                setTimeout(typeText, typingSpeed);
+            } else {
+                // 打字完成，显示START GAME按钮
+                setTimeout(() => {
+                    document.getElementById('screenContent').innerHTML = 
+                        '<div class="typing-text">' + currentText + '</div>' +
+                        '<button class="start-button show" id="startButton" onclick="startGame()">' +
+                        '<div class="start-icon"></div>START GAME</button>';
+                    
+                    // 确保按钮可见
+                    const screenFrame = document.querySelector('.screen-frame');
+                    screenFrame.scrollTop = screenFrame.scrollHeight;
+                }, 500);
+            }
+        }
+        
+        function startGame() {
+            // 显示转场动画
+            const overlay = document.getElementById('transitionOverlay');
+            overlay.classList.add('active');
+            
+            // 创建粒子效果
+            createTransitionParticles();
+            
+            // 延迟跳转，让转场动画播放
+            setTimeout(() => {
+                window.location.href = 'game-dashboard.html';
+            }, 2500);
+        }
+        
+        function createTransitionParticles() {
+            const particlesContainer = document.getElementById('transitionParticles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        function goBack() {
+            // 返回到game-dashboard页面
+            window.location.href = 'game-dashboard.html';
+        }
+        
+        // 页面加载完成后开始打字动画和字符瀑布
+        window.addEventListener('load', () => {
+            // 创建字符瀑布特效
+            createDigitalRain();
+            
+            // 定期更新字符瀑布
+            setInterval(updateDigitalRain, 2000);
+            
+            // 等待容器动画完成后再开始打字动画
+            setTimeout(() => {
+                typeText();
+            }, 2200); // 延迟2.2秒开始打字，确保容器动画完成
+        });
+        
+        // 添加键盘支持
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.getElementById('startButton').classList.contains('show')) {
+                startGame();
+            }
+            if (e.key === 'Escape' && document.getElementById('backButton').classList.contains('show')) {
+                goBack();
+            }
+        });
+        
+        // 窗口大小变化时重新创建字符瀑布
+        window.addEventListener('resize', () => {
+            const digitalRain = document.getElementById('digitalRain');
+            digitalRain.innerHTML = '';
+            rainColumns = [];
+            createDigitalRain();
+=======
+        // 自动跳转到游戏控制台
+        setTimeout(() => {
+            window.location.href = 'game-dashboard.html';
+        }, 2000);
+        
+        // 如果用户点击了手动链接，立即跳转
+        document.querySelector('.manual-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'game-dashboard.html';
+>>>>>>> bed946731843f23b30bf22d6b15cd49cf6218b10
+        });
+    </script>
+</body>
+</html>

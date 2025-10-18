@@ -10,12 +10,7 @@
     "locationZh": "中国南京",
     "locationJa": "中国 南京",
     "email": "hello@example.com",
-    "phone": "+86 138-0000-0000",
-    "social": {
-      "linkedin": "https://www.linkedin.com/in/liuyu",
-      "github": "https://github.com/liuyu",
-      "telegram": "https://t.me/liuyu"
-    }
+    "phone": "+86 138-0000-0000"
   },
   "cartridges": [
     {
@@ -43,376 +38,256 @@
       "order": 3
     }
   ],
-  "levels": {
-    "d5": [
-      {
-        "id": "team-edition",
-        "name": "Team Edition 0→1",
-        "nameZh": "团队版从0→10",
-        "icon": "🚀"
-      },
-      {
-        "id": "collaboration",
-        "name": "Collaboration System",
-        "nameZh": "协作体系",
-        "icon": "🤝"
-      },
-      {
-        "id": "commercialization",
-        "name": "Commercialization & Growth",
-        "nameZh": "商业化与增长",
-        "icon": "📈"
-      },
-      {
-        "id": "showreel",
-        "name": "3D Showreel",
-        "nameZh": "3D展示",
-        "icon": "🎬"
-      }
-    ],
-    "kujiale": [
-      {
-        "id": "plm",
-        "name": "PLM System",
-        "nameZh": "PLM系统",
-        "icon": "📋"
-      },
-      {
-        "id": "oms",
-        "name": "OMS Platform",
-        "nameZh": "OMS平台",
-        "icon": "⚙️"
-      },
-      {
-        "id": "parametric-cad",
-        "name": "Parametric CAD",
-        "nameZh": "参数化CAD",
-        "icon": "🔧"
-      },
-      {
-        "id": "design-system",
-        "name": "Design System",
-        "nameZh": "设计系统",
-        "icon": "🎨"
-      }
-    ],
-    "projects": [
-      {
-        "id": "diverseshot",
-        "name": "DiverseShot",
-        "nameZh": "DiverseShot",
-        "icon": "📸"
-      },
-      {
-        "id": "personal-site",
-        "name": "Personal Site",
-        "nameZh": "个人站点",
-        "icon": "🌐"
-      },
-      {
-        "id": "experiments",
-        "name": "Other Experiments",
-        "nameZh": "其它实验",
-        "icon": "🧪"
-      }
-    ]
-  },
   "experience": {
     "d5": {
-      "team-edition": [
-        {
-          "title": "Achieved ARR > RMB 15M",
-          "titleZh": "实现ARR超过1500万人民币",
-          "desc": "Led product definition and implementation of D5 Team Edition from concept to market launch",
-          "descZh": "主导D5团队版从概念到市场发布的产品定义与落地",
-          "badges": [
-            "ARR 15M+",
-            "0→1 Product"
-          ],
-          "metrics": [
+      "levels": {
+        "team-edition": {
+          "name": "Team Edition 0→1",
+          "nameZh": "团队版从0→10",
+          "nameJa": "チーム版 0→1",
+          "icon": "🚀",
+          "bulletPoints": [
             {
-              "label": "ARR",
-              "value": "15M+",
-              "unit": "RMB"
+              "title": "Achieved ARR > RMB 15M",
+              "titleEn": "Achieved ARR > RMB 15M",
+              "titleZh": "实现ARR超过1500万人民币",
+              "titleJa": "ARR 1500万人民元超達成",
+              "desc": "Led product definition and implementation of D5 Team Edition from concept to market launch",
+              "descEn": "Led product definition and implementation of D5 Team Edition from concept to market launch",
+              "descZh": "主导D5团队版从概念到市场发布的产品定义与落地",
+              "descJa": "D5チーム版の概念から市場リリースまでの製品定義と実装を主導"
             },
             {
-              "label": "Users",
-              "value": "10K+",
-              "unit": "Teams"
+              "title": "Achieved ARR > RMB 15M",
+              "titleEn": "Achieved ARR > RMB 15M",
+              "titleZh": "实现ARR超过1500万人民币",
+              "titleJa": "ARR 1500万人民元超達成",
+              "desc": "Led product definition and implementation of D5 Team Edition from concept to market launch",
+              "descEn": "Led product definition and implementation of D5 Team Edition from concept to market launch",
+              "descZh": "主导D5团队版从概念到市场发布的产品定义与落地",
+              "descJa": "D5チーム版の概念から市場リリースまでの製品定義と実装を主導"
+            },
+            {
+              "title": "Achieved ARR > RMB 15M",
+              "titleEn": "Achieved ARR > RMB 15M",
+              "titleZh": "实现ARR超过1500万人民币",
+              "titleJa": "ARR 1500万人民元超達成",
+              "desc": "Led product definition and implementation of D5 Team Edition from concept to market launch",
+              "descEn": "Led product definition and implementation of D5 Team Edition from concept to market launch",
+              "descZh": "主导D5团队版从概念到市场发布的产品定义与落地",
+              "descJa": "D5チーム版の概念から市場リリースまでの製品定義と実装を主導"
+            },
+            {
+              "title": "Seat Licensing Model",
+              "titleEn": "Seat Licensing Model",
+              "titleZh": "席位授权模式",
+              "titleJa": "シートライセンスモデル",
+              "desc": "Designed and implemented flexible seat-based licensing system with pay-as-you-grow pricing",
+              "descEn": "Designed and implemented flexible seat-based licensing system with pay-as-you-grow pricing",
+              "descZh": "设计并实现灵活的席位授权系统，支持按需付费模式",
+              "descJa": "柔軟なシートベースライセンスシステムを設計・実装し、従量課金モデルをサポート"
             }
-          ],
-          "previewUrl": "https://www.d5render.com/team/"
+          ]
         },
-        {
-          "title": "Seat Licensing Model",
-          "titleZh": "席位授权模式",
-          "desc": "Designed and implemented flexible seat-based licensing system with pay-as-you-grow pricing",
-          "descZh": "设计并实现灵活的席位授权系统，支持按需付费模式",
-          "badges": [
-            "Seat Licensing",
-            "Pay-as-you-Grow"
-          ],
-          "metrics": [
+        "collaboration": {
+          "name": "Collaboration System",
+          "nameZh": "协作体系",
+          "nameJa": "コラボレーションシステム",
+          "icon": "🤝",
+          "bulletPoints": [
             {
-              "label": "Conversion",
-              "value": "35%",
-              "unit": "Rate"
+              "title": "Cloud & LAN Collaboration",
+              "titleEn": "Cloud & LAN Collaboration",
+              "titleZh": "云端与局域网协作",
+              "titleJa": "クラウド・LAN協働",
+              "desc": "Built comprehensive collaboration system supporting both cloud and local network workflows",
+              "descEn": "Built comprehensive collaboration system supporting both cloud and local network workflows",
+              "descZh": "构建支持云端和局域网工作流的综合协作系统",
+              "descJa": "クラウドとローカルネットワークワークフローの両方をサポートする包括的な協働システムを構築"
             },
             {
-              "label": "Retention",
-              "value": "85%",
-              "unit": "Annual"
+              "title": "Cloud & LAN Collaboration",
+              "titleEn": "Cloud & LAN Collaboration",
+              "titleZh": "云端与局域网协作",
+              "titleJa": "クラウド・LAN協働",
+              "desc": "Built comprehensive collaboration system supporting both cloud and local network workflows",
+              "descEn": "Built comprehensive collaboration system supporting both cloud and local network workflows",
+              "descZh": "构建支持云端和局域网工作流的综合协作系统",
+              "descJa": "クラウドとローカルネットワークワークフローの両方をサポートする包括的な協働システムを構築"
+            }
+          ]
+        },
+        "commercialization": {
+          "name": "Commercialization & Growth",
+          "nameZh": "商业化与增长",
+          "nameJa": "商業化と成長",
+          "icon": "📈",
+          "bulletPoints": [
+            {
+              "title": "Stripe Integration & Analytics",
+              "titleEn": "Stripe Integration & Analytics",
+              "titleZh": "Stripe集成与数据分析",
+              "titleJa": "Stripe統合・データ分析",
+              "desc": "Integrated Stripe payment system and built comprehensive analytics dashboard for business insights",
+              "descEn": "Integrated Stripe payment system and built comprehensive analytics dashboard for business insights",
+              "descZh": "集成Stripe支付系统并构建综合分析仪表板",
+              "descJa": "Stripe決済システムを統合し、ビジネスインサイトのための包括的分析ダッシュボードを構築"
+            }
+          ]
+        },
+        "showreel": {
+          "name": "3D Showreel",
+          "nameZh": "3D展示",
+          "nameJa": "3Dショーリール",
+          "icon": "🎬",
+          "bulletPoints": [
+            {
+              "title": "3D Gaussian + VR Showcase",
+              "titleEn": "3D Gaussian + VR Showcase",
+              "titleZh": "3D高斯+VR展示",
+              "titleJa": "3Dガウシアン+VRショーケース",
+              "desc": "Developed cutting-edge 3D rendering showcase with panoramic VR capabilities",
+              "descEn": "Developed cutting-edge 3D rendering showcase with panoramic VR capabilities",
+              "descZh": "开发具有全景VR功能的尖端3D渲染展示",
+              "descJa": "パノラマVR機能を備えた最先端3Dレンダリングショーケースを開発"
             }
           ]
         }
-      ],
-      "collaboration": [
-        {
-          "title": "Cloud & LAN Collaboration",
-          "titleZh": "云端与局域网协作",
-          "desc": "Built comprehensive collaboration system supporting both cloud and local network workflows",
-          "descZh": "构建支持云端和局域网工作流的综合协作系统",
-          "badges": [
-            "Cloud Sync",
-            "LAN Support"
-          ],
-          "metrics": [
-            {
-              "label": "Sync Speed",
-              "value": "10x",
-              "unit": "Faster"
-            },
-            {
-              "label": "Uptime",
-              "value": "99.9%",
-              "unit": "SLA"
-            }
-          ]
-        }
-      ],
-      "commercialization": [
-        {
-          "title": "Stripe Integration & Analytics",
-          "titleZh": "Stripe集成与数据分析",
-          "desc": "Integrated Stripe payment system and built comprehensive analytics dashboard for business insights",
-          "descZh": "集成Stripe支付系统并构建综合分析仪表板",
-          "badges": [
-            "Stripe Integration",
-            "Data Driven"
-          ],
-          "metrics": [
-            {
-              "label": "Payment Success",
-              "value": "98%",
-              "unit": "Rate"
-            },
-            {
-              "label": "CAC",
-              "value": "RMB 200",
-              "unit": "Per User"
-            }
-          ]
-        }
-      ],
-      "showreel": [
-        {
-          "title": "3D Gaussian + VR Showcase",
-          "titleZh": "3D高斯+VR展示",
-          "desc": "Developed cutting-edge 3D rendering showcase with panoramic VR capabilities",
-          "descZh": "开发具有全景VR功能的尖端3D渲染展示",
-          "badges": [
-            "3D Gaussian",
-            "VR Support"
-          ],
-          "metrics": [
-            {
-              "label": "Render Quality",
-              "value": "4K",
-              "unit": "Resolution"
-            },
-            {
-              "label": "VR Support",
-              "value": "360°",
-              "unit": "Panoramic"
-            }
-          ],
-          "previewUrl": "https://www.d5render.com/showreel/"
-        }
-      ]
+      }
     },
     "kujiale": {
-      "plm": [
-        {
-          "title": "Product Lifecycle Management",
-          "titleZh": "产品生命周期管理",
-          "desc": "Designed and implemented comprehensive PLM system for furniture and home decoration industry",
-          "descZh": "为家具和家装行业设计并实现综合PLM系统",
-          "badges": [
-            "PLM System",
-            "Furniture Industry"
-          ],
-          "metrics": [
+      "levels": {
+        "plm": {
+          "name": "PLM System",
+          "nameZh": "PLM系统",
+          "nameJa": "PLMシステム",
+          "icon": "📋",
+          "bulletPoints": [
             {
-              "label": "Products",
-              "value": "100K+",
-              "unit": "Managed"
-            },
+              "title": "Product Lifecycle Management",
+              "titleEn": "Product Lifecycle Management",
+              "titleZh": "产品生命周期管理",
+              "titleJa": "製品ライフサイクル管理",
+              "desc": "Designed and implemented comprehensive PLM system for furniture and home decoration industry",
+              "descEn": "Designed and implemented comprehensive PLM system for furniture and home decoration industry",
+              "descZh": "为家具和家装行业设计并实现综合PLM系统",
+              "descJa": "家具・住宅装飾業界向けの包括的PLMシステムを設計・実装"
+            }
+          ]
+        },
+        "oms": {
+          "name": "OMS Platform",
+          "nameZh": "OMS平台",
+          "nameJa": "OMSプラットフォーム",
+          "icon": "⚙️",
+          "bulletPoints": [
             {
-              "label": "Efficiency",
-              "value": "40%",
-              "unit": "Improvement"
+              "title": "Order Management System",
+              "titleEn": "Order Management System",
+              "titleZh": "订单管理系统",
+              "titleJa": "注文管理システム",
+              "desc": "Built scalable OMS platform handling complex order workflows and inventory management",
+              "descEn": "Built scalable OMS platform handling complex order workflows and inventory management",
+              "descZh": "构建可扩展的OMS平台，处理复杂订单工作流和库存管理",
+              "descJa": "複雑な注文ワークフローと在庫管理を処理するスケーラブルなOMSプラットフォームを構築"
+            }
+          ]
+        },
+        "parametric-cad": {
+          "name": "Parametric CAD",
+          "nameZh": "参数化CAD",
+          "nameJa": "パラメトリックCAD",
+          "icon": "🔧",
+          "bulletPoints": [
+            {
+              "title": "Parametric CAD Engine",
+              "titleEn": "Parametric CAD Engine",
+              "titleZh": "参数化CAD引擎",
+              "titleJa": "パラメトリックCADエンジン",
+              "desc": "Developed parametric CAD system enabling dynamic furniture design and customization",
+              "descEn": "Developed parametric CAD system enabling dynamic furniture design and customization",
+              "descZh": "开发参数化CAD系统，支持动态家具设计和定制",
+              "descJa": "動的家具設計とカスタマイズを可能にするパラメトリックCADシステムを開発"
+            }
+          ]
+        },
+        "design-system": {
+          "name": "Design System",
+          "nameZh": "设计系统",
+          "nameJa": "デザインシステム",
+          "icon": "🎨",
+          "bulletPoints": [
+            {
+              "title": "Unified Design System",
+              "titleEn": "Unified Design System",
+              "titleZh": "统一设计系统",
+              "titleJa": "統一デザインシステム",
+              "desc": "Created comprehensive design system ensuring consistency across all Kujiale products",
+              "descEn": "Created comprehensive design system ensuring consistency across all Kujiale products",
+              "descZh": "创建综合设计系统，确保所有酷家乐产品的一致性",
+              "descJa": "すべてのクージャレ製品の一貫性を確保する包括的デザインシステムを作成"
             }
           ]
         }
-      ],
-      "oms": [
-        {
-          "title": "Order Management System",
-          "titleZh": "订单管理系统",
-          "desc": "Built scalable OMS platform handling complex order workflows and inventory management",
-          "descZh": "构建可扩展的OMS平台，处理复杂订单工作流和库存管理",
-          "badges": [
-            "IxDA Shortlist",
-            "Scalable Platform"
-          ],
-          "metrics": [
-            {
-              "label": "Orders",
-              "value": "1M+",
-              "unit": "Monthly"
-            },
-            {
-              "label": "Processing",
-              "value": "99.5%",
-              "unit": "Accuracy"
-            }
-          ],
-          "previewUrl": "https://www.kujiale.com/oms"
-        }
-      ],
-      "parametric-cad": [
-        {
-          "title": "Parametric CAD Engine",
-          "titleZh": "参数化CAD引擎",
-          "desc": "Developed parametric CAD system enabling dynamic furniture design and customization",
-          "descZh": "开发参数化CAD系统，支持动态家具设计和定制",
-          "badges": [
-            "Parametric CAD",
-            "Dynamic Design"
-          ],
-          "metrics": [
-            {
-              "label": "Parameters",
-              "value": "50+",
-              "unit": "Per Model"
-            },
-            {
-              "label": "Generation",
-              "value": "Real-time",
-              "unit": "Speed"
-            }
-          ]
-        }
-      ],
-      "design-system": [
-        {
-          "title": "Unified Design System",
-          "titleZh": "统一设计系统",
-          "desc": "Created comprehensive design system ensuring consistency across all Kujiale products",
-          "descZh": "创建综合设计系统，确保所有酷家乐产品的一致性",
-          "badges": [
-            "Design System",
-            "Consistency"
-          ],
-          "metrics": [
-            {
-              "label": "Components",
-              "value": "200+",
-              "unit": "Reusable"
-            },
-            {
-              "label": "Adoption",
-              "value": "95%",
-              "unit": "Team Usage"
-            }
-          ]
-        }
-      ]
+      }
     },
     "projects": {
-      "diverseshot": [
-        {
-          "title": "DiverseShot Platform",
-          "titleZh": "DiverseShot平台",
-          "desc": "Built photography platform promoting diversity and inclusion in visual content",
-          "descZh": "构建摄影平台，促进视觉内容的多样性和包容性",
-          "badges": [
-            "Diversity",
-            "Photography"
-          ],
-          "metrics": [
+      "levels": {
+        "diverseshot": {
+          "name": "DiverseShot",
+          "nameZh": "DiverseShot",
+          "nameJa": "DiverseShot",
+          "icon": "📸",
+          "bulletPoints": [
             {
-              "label": "Users",
-              "value": "5K+",
-              "unit": "Active"
-            },
-            {
-              "label": "Content",
-              "value": "10K+",
-              "unit": "Images"
+              "title": "DiverseShot Platform",
+              "titleEn": "DiverseShot Platform",
+              "titleZh": "DiverseShot平台",
+              "titleJa": "DiverseShotプラットフォーム",
+              "desc": "Built photography platform promoting diversity and inclusion in visual content",
+              "descEn": "Built photography platform promoting diversity and inclusion in visual content",
+              "descZh": "构建摄影平台，促进视觉内容的多样性和包容性",
+              "descJa": "視覚コンテンツの多様性と包括性を促進する写真プラットフォームを構築"
             }
-          ],
-          "previewUrl": "https://diverseshot.com/"
-        }
-      ],
-      "personal-site": [
-        {
-          "title": "Interactive Portfolio",
-          "titleZh": "交互式作品集",
-          "desc": "Designed and developed game-console style personal portfolio with immersive user experience",
-          "descZh": "设计并开发游戏机风格的个人作品集，提供沉浸式用户体验",
-          "badges": [
-            "Game Console UI",
-            "Interactive"
-          ],
-          "metrics": [
+          ]
+        },
+        "personal-site": {
+          "name": "Personal Site",
+          "nameZh": "个人站点",
+          "nameJa": "個人サイト",
+          "icon": "🌐",
+          "bulletPoints": [
             {
-              "label": "Performance",
-              "value": "95+",
-              "unit": "Lighthouse"
-            },
+              "title": "Interactive Portfolio",
+              "titleEn": "Interactive Portfolio",
+              "titleZh": "交互式作品集",
+              "titleJa": "インタラクティブポートフォリオ",
+              "desc": "Designed and developed game-console style personal portfolio with immersive user experience",
+              "descEn": "Designed and developed game-console style personal portfolio with immersive user experience",
+              "descZh": "设计并开发游戏机风格的个人作品集，提供沉浸式用户体验",
+              "descJa": "没入感のあるユーザー体験を提供するゲームコンソールスタイルの個人ポートフォリオを設計・開発"
+            }
+          ]
+        },
+        "experiments": {
+          "name": "Other Experiments",
+          "nameZh": "其它实验",
+          "nameJa": "その他の実験",
+          "icon": "🧪",
+          "bulletPoints": [
             {
-              "label": "Accessibility",
-              "value": "AAA",
-              "unit": "Rating"
+              "title": "AI Workflow Components",
+              "titleEn": "AI Workflow Components",
+              "titleZh": "AI工作流组件",
+              "titleJa": "AIワークフローコンポーネント",
+              "desc": "Developed reusable AI workflow components for design automation and optimization",
+              "descEn": "Developed reusable AI workflow components for design automation and optimization",
+              "descZh": "开发可重用的AI工作流组件，用于设计自动化和优化",
+              "descJa": "設計自動化と最適化のための再利用可能なAIワークフローコンポーネントを開発"
             }
           ]
         }
-      ],
-      "experiments": [
-        {
-          "title": "AI Workflow Components",
-          "titleZh": "AI工作流组件",
-          "desc": "Developed reusable AI workflow components for design automation and optimization",
-          "descZh": "开发可重用的AI工作流组件，用于设计自动化和优化",
-          "badges": [
-            "AI Components",
-            "Automation"
-          ],
-          "metrics": [
-            {
-              "label": "Components",
-              "value": "20+",
-              "unit": "Reusable"
-            },
-            {
-              "label": "Efficiency",
-              "value": "60%",
-              "unit": "Time Saved"
-            }
-          ]
-        }
-      ]
+      }
     }
   },
   "ui": {
@@ -451,6 +326,33 @@
       "titleZh": "游戏控制台",
       "titleJa": "ゲームコンソール"
     },
+    "contact": {
+      "title": {
+        "zh": "联系方式",
+        "en": "Contact",
+        "ja": "連絡先"
+      },
+      "phone": {
+        "zh": "📞 电话",
+        "en": "📞 Phone",
+        "ja": "📞 電話"
+      },
+      "email": {
+        "zh": "📧 邮箱",
+        "en": "📧 Email",
+        "ja": "📧 メール"
+      },
+      "website": {
+        "zh": "🌐 网站",
+        "en": "🌐 Website",
+        "ja": "🌐 ウェブサイト"
+      },
+      "location": {
+        "zh": "📍 位置",
+        "en": "📍 Location",
+        "ja": "📍 所在地"
+      }
+    },
     "tabs": {
       "skills": {
         "zh": "技能",
@@ -459,55 +361,13 @@
       },
       "achievements": {
         "zh": "成就",
-        "en": "Award",
+        "en": "Wins",
         "ja": "実績"
       },
       "education": {
         "zh": "教育",
         "en": "Education",
         "ja": "教育"
-      }
-    },
-    "projects": {
-      "d5Title": {
-        "zh": "D5 渲染器团队版",
-        "en": "D5 Render Team Edition",
-        "ja": "D5 レンダーチーム版"
-      },
-      "d5Desc": {
-        "zh": "全球领先的即时渲染器 B 端版本，ARR 超 1500 万",
-        "en": "Leading real-time renderer B2B version with ARR over 15M RMB",
-        "ja": "世界トップクラスのリアルタイムレンダラーB2B版、ARR 1500万超"
-      },
-      "kujialeTitle": {
-        "zh": "前后端一体对接生产方案",
-        "en": "End-to-End Production Solution",
-        "ja": "フロントエンド・バックエンド一体生産ソリューション"
-      },
-      "kujialeDesc": {
-        "zh": "门店订单直连工厂审核与生产，支撑 100 亿资产流转",
-        "en": "Store orders directly connect to factory review and production, supporting 10B asset flow",
-        "ja": "店舗注文が工場審査・生産に直接接続、100億資産流転をサポート"
-      },
-      "officeTitle": {
-        "zh": "公装参数化设计工具",
-        "en": "Parametric Office Design Tool",
-        "ja": "オフィスパラメトリックデザインツール"
-      },
-      "officeDesc": {
-        "zh": "参数化装配式办公家具设计，服务震旦/圣奥等品牌",
-        "en": "Parametric modular office furniture design, serving Aurora/Sunon brands",
-        "ja": "パラメトリック組立式オフィス家具デザイン、震旦/圣奥ブランドにサービス"
-      },
-      "diverseshotTitle": {
-        "zh": "DiverseShot AI",
-        "en": "DiverseShot AI",
-        "ja": "DiverseShot AI"
-      },
-      "diverseshotDesc": {
-        "zh": "将视频转换为 3D 文件的 AI 客户端，简单易用",
-        "en": "AI client that converts videos to 3D files, simple and easy to use",
-        "ja": "動画を3Dファイルに変換するAIクライアント、シンプルで使いやすい"
       }
     },
     "start": {
@@ -544,6 +404,71 @@
       "zh": "卡片",
       "en": "Cards",
       "ja": "カード"
+    },
+    "aboutYu": {
+      "zh": "关于禹",
+      "en": "About Yu",
+      "ja": "Yuについて"
+    },
+    "modal": {
+      "title": {
+        "zh": "选择游戏卡带",
+        "en": "Select Game Cartridge",
+        "ja": "ゲームカートリッジを選択"
+      },
+      "description": {
+        "zh": "从收藏中选择一个游戏开始你的冒险",
+        "en": "Choose a game from your collection to start your adventure",
+        "ja": "コレクションからゲームを選んで冒険を始めましょう"
+      },
+      "selectButton": {
+        "zh": "选择此游戏",
+        "en": "Select This Game",
+        "ja": "このゲームを選択"
+      },
+      "closeButton": {
+        "zh": "×",
+        "en": "×",
+        "ja": "×"
+      }
+    },
+    "cartridgeInfo": {
+      "d5": {
+        "genre": {
+          "zh": "实时渲染",
+          "en": "Real-time Rendering",
+          "ja": "リアルタイムレンダリング"
+        },
+        "description": {
+          "zh": "专业的实时渲染引擎，为设计师提供强大的3D可视化工具",
+          "en": "Professional real-time rendering engine providing powerful 3D visualization tools for designers",
+          "ja": "デザイナー向けの強力な3D可視化ツールを提供するプロフェッショナルなリアルタイムレンダリングエンジン"
+        }
+      },
+      "kujiale": {
+        "genre": {
+          "zh": "家装设计",
+          "en": "Home Design",
+          "ja": "住宅デザイン"
+        },
+        "description": {
+          "zh": "领先的家装设计平台，提供从设计到施工的全流程解决方案",
+          "en": "Leading home design platform providing end-to-end solutions from design to construction",
+          "ja": "設計から施工まで全工程のソリューションを提供する住宅デザインのリーディングプラットフォーム"
+        }
+      },
+      "projects": {
+        "genre": {
+          "zh": "个人项目",
+          "en": "Personal Projects",
+          "ja": "個人プロジェクト"
+        },
+        "description": {
+          "zh": "探索创新想法，实践前沿技术，打造有趣的产品体验",
+          "en": "Exploring innovative ideas, practicing cutting-edge technologies, creating interesting product experiences",
+          "ja": "革新的なアイデアを探求し、最先端技術を実践し、興味深いプロダクト体験を創造"
+        }
+      }
     }
   },
   "skills": {

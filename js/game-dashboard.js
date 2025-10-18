@@ -37,6 +37,9 @@ class GameDashboard {
     this.setupGameControls();
     this.updateUITexts();
     
+    // Show initial welcome message
+    this.resetViewport();
+    
     // Set initial active language button
     const langButtons = document.querySelectorAll('.lang-btn');
     console.log('🔘 Found language buttons:', langButtons.length);
@@ -44,6 +47,10 @@ class GameDashboard {
       btn.classList.toggle('active', btn.dataset.lang === this.currentLanguage);
       console.log(`🔘 Button ${btn.dataset.lang} active:`, btn.classList.contains('active'));
     });
+    
+    // Bind resize events for responsive 3D carousel
+    this.bindResizeEvents();
+    
     console.log('✅ GameDashboard init completed');
   }
 
@@ -100,10 +107,38 @@ class GameDashboard {
           exit: profileData.ui?.exit?.zh || "EXIT",
           welcome: profileData.ui?.welcome?.zh || "欢迎来到我的作品集",
           welcomeDesc: profileData.ui?.welcomeDesc?.zh || "点击 START 按钮开始探索我的作品",
+          aboutYu: profileData.ui?.aboutYu?.zh || "关于刘禹",
           cartridge: profileData.ui?.cartridge?.zh || "卡带",
           level: profileData.ui?.level?.zh || "关卡",
           cards: profileData.ui?.cards?.zh || "卡片",
-          gameConsole: profileData.ui?.gameConsole?.titleZh || "游戏控制台"
+          modal: {
+            title: profileData.ui?.modal?.title?.zh || "选择游戏卡带",
+            description: profileData.ui?.modal?.description?.zh || "从收藏中选择一个游戏开始你的冒险",
+            selectButton: profileData.ui?.modal?.selectButton?.zh || "选择此游戏",
+            closeButton: profileData.ui?.modal?.closeButton?.zh || "×"
+          },
+          cartridgeInfo: {
+            d5: {
+              genre: profileData.ui?.cartridgeInfo?.d5?.genre?.zh || "实时渲染",
+              description: profileData.ui?.cartridgeInfo?.d5?.description?.zh || "专业的实时渲染引擎，为设计师提供强大的3D可视化工具"
+            },
+            kujiale: {
+              genre: profileData.ui?.cartridgeInfo?.kujiale?.genre?.zh || "家装设计",
+              description: profileData.ui?.cartridgeInfo?.kujiale?.description?.zh || "领先的家装设计平台，提供从设计到施工的全流程解决方案"
+            },
+            projects: {
+              genre: profileData.ui?.cartridgeInfo?.projects?.genre?.zh || "个人项目",
+              description: profileData.ui?.cartridgeInfo?.projects?.description?.zh || "探索创新想法，实践前沿技术，打造有趣的产品体验"
+            }
+          },
+          gameConsole: profileData.ui?.gameConsole?.titleZh || "游戏控制台",
+          contact: {
+            title: profileData.ui?.contact?.title?.zh || "联系方式",
+            phone: profileData.ui?.contact?.phone?.zh || "📞 电话",
+            email: profileData.ui?.contact?.email?.zh || "📧 邮箱",
+            website: profileData.ui?.contact?.website?.zh || "🌐 网站",
+            location: profileData.ui?.contact?.location?.zh || "📍 位置"
+          }
         },
         skills: {
           productPlanning: {
@@ -147,6 +182,105 @@ class GameDashboard {
             school: profileData.education?.dlnu?.school?.zh || "大连民族大学 / 设计学院",
             degree: profileData.education?.dlnu?.degree?.zh || "工业设计 • 工学学士"
           }
+        },
+        experience: {
+          d5: {
+            levels: {
+              "team-edition": {
+                name: profileData.experience?.d5?.levels?.["team-edition"]?.nameZh || "团队版从0→10",
+                bulletPoints: (() => {
+                  const rawBulletPoints = profileData.experience?.d5?.levels?.["team-edition"]?.bulletPoints;
+                  console.log('🔍 Raw bulletPoints for team-edition:', rawBulletPoints);
+                  if (!rawBulletPoints) return [];
+                  return rawBulletPoints.map(bp => {
+                    console.log('🔍 Processing BP:', bp);
+                    return {
+                      title: bp.titleZh || bp.title || bp.titleJa,
+                      desc: bp.descZh || bp.desc || bp.descJa
+                    };
+                  });
+                })()
+              },
+              "collaboration": {
+                name: profileData.experience?.d5?.levels?.collaboration?.nameZh || "协作体系",
+                bulletPoints: profileData.experience?.d5?.levels?.collaboration?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              },
+              "commercialization": {
+                name: profileData.experience?.d5?.levels?.commercialization?.nameZh || "商业化与增长",
+                bulletPoints: profileData.experience?.d5?.levels?.commercialization?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              },
+              "showreel": {
+                name: profileData.experience?.d5?.levels?.showreel?.nameZh || "3D展示",
+                bulletPoints: profileData.experience?.d5?.levels?.showreel?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              }
+            }
+          },
+          kujiale: {
+            levels: {
+              "plm": {
+                name: profileData.experience?.kujiale?.levels?.plm?.nameZh || "PLM系统",
+                bulletPoints: profileData.experience?.kujiale?.levels?.plm?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              },
+              "oms": {
+                name: profileData.experience?.kujiale?.levels?.oms?.nameZh || "OMS平台",
+                bulletPoints: profileData.experience?.kujiale?.levels?.oms?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              },
+              "parametric-cad": {
+                name: profileData.experience?.kujiale?.levels?.["parametric-cad"]?.nameZh || "参数化CAD",
+                bulletPoints: profileData.experience?.kujiale?.levels?.["parametric-cad"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              },
+              "design-system": {
+                name: profileData.experience?.kujiale?.levels?.["design-system"]?.nameZh || "设计系统",
+                bulletPoints: profileData.experience?.kujiale?.levels?.["design-system"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              }
+            }
+          },
+          projects: {
+            levels: {
+              "diverseshot": {
+                name: profileData.experience?.projects?.levels?.diverseshot?.nameZh || "DiverseShot",
+                bulletPoints: profileData.experience?.projects?.levels?.diverseshot?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              },
+              "personal-site": {
+                name: profileData.experience?.projects?.levels?.["personal-site"]?.nameZh || "个人站点",
+                bulletPoints: profileData.experience?.projects?.levels?.["personal-site"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              },
+              "experiments": {
+                name: profileData.experience?.projects?.levels?.experiments?.nameZh || "其它实验",
+                bulletPoints: profileData.experience?.projects?.levels?.experiments?.bulletPoints?.map(bp => ({
+                  title: bp.titleZh || bp.title || bp.titleJa,
+                  desc: bp.descZh || bp.desc || bp.descJa
+                })) || []
+              }
+            }
+          }
         }
       },
       en: {
@@ -164,7 +298,7 @@ class GameDashboard {
         },
         tabs: {
           skills: profileData.ui?.tabs?.skills?.en || "Skills",
-          achievements: profileData.ui?.tabs?.achievements?.en || "Achievements",
+          achievements: profileData.ui?.tabs?.achievements?.en || "Wins",
           education: profileData.ui?.tabs?.education?.en || "Education"
         },
         projects: {
@@ -182,10 +316,38 @@ class GameDashboard {
           exit: profileData.ui?.exit?.en || "EXIT",
           welcome: profileData.ui?.welcome?.en || "Welcome to My Portfolio",
           welcomeDesc: profileData.ui?.welcomeDesc?.en || "Click START button to explore my works",
+          aboutYu: profileData.ui?.aboutYu?.en || "About Yu",
           cartridge: profileData.ui?.cartridge?.en || "Cartridge",
           level: profileData.ui?.level?.en || "Level",
           cards: profileData.ui?.cards?.en || "Cards",
-          gameConsole: profileData.ui?.gameConsole?.title || "Game Console"
+          modal: {
+            title: profileData.ui?.modal?.title?.en || "Select Game Cartridge",
+            description: profileData.ui?.modal?.description?.en || "Choose a game from your collection to start your adventure",
+            selectButton: profileData.ui?.modal?.selectButton?.en || "Select This Game",
+            closeButton: profileData.ui?.modal?.closeButton?.en || "×"
+          },
+          cartridgeInfo: {
+            d5: {
+              genre: profileData.ui?.cartridgeInfo?.d5?.genre?.en || "Real-time Rendering",
+              description: profileData.ui?.cartridgeInfo?.d5?.description?.en || "Professional real-time rendering engine providing powerful 3D visualization tools for designers"
+            },
+            kujiale: {
+              genre: profileData.ui?.cartridgeInfo?.kujiale?.genre?.en || "Home Design",
+              description: profileData.ui?.cartridgeInfo?.kujiale?.description?.en || "Leading home design platform providing end-to-end solutions from design to construction"
+            },
+            projects: {
+              genre: profileData.ui?.cartridgeInfo?.projects?.genre?.en || "Personal Projects",
+              description: profileData.ui?.cartridgeInfo?.projects?.description?.en || "Exploring innovative ideas, practicing cutting-edge technologies, creating interesting product experiences"
+            }
+          },
+          gameConsole: profileData.ui?.gameConsole?.title || "Game Console",
+          contact: {
+            title: profileData.ui?.contact?.title?.en || "Contact",
+            phone: profileData.ui?.contact?.phone?.en || "📞 Phone",
+            email: profileData.ui?.contact?.email?.en || "📧 Email",
+            website: profileData.ui?.contact?.website?.en || "🌐 Website",
+            location: profileData.ui?.contact?.location?.en || "📍 Location"
+          }
         },
         skills: {
           productPlanning: {
@@ -229,6 +391,97 @@ class GameDashboard {
             school: profileData.education?.dlnu?.school?.en || "Dalian Minzu University / School of Design",
             degree: profileData.education?.dlnu?.degree?.en || "Industrial Design • Bachelor of Engineering"
           }
+        },
+        experience: {
+          d5: {
+            levels: {
+              "team-edition": {
+                name: profileData.experience?.d5?.levels?.["team-edition"]?.name || "Team Edition 0→1",
+                bulletPoints: profileData.experience?.d5?.levels?.["team-edition"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "collaboration": {
+                name: profileData.experience?.d5?.levels?.collaboration?.name || "Collaboration System",
+                bulletPoints: profileData.experience?.d5?.levels?.collaboration?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "commercialization": {
+                name: profileData.experience?.d5?.levels?.commercialization?.name || "Commercialization & Growth",
+                bulletPoints: profileData.experience?.d5?.levels?.commercialization?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "showreel": {
+                name: profileData.experience?.d5?.levels?.showreel?.name || "3D Showreel",
+                bulletPoints: profileData.experience?.d5?.levels?.showreel?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              }
+            }
+          },
+          kujiale: {
+            levels: {
+              "plm": {
+                name: profileData.experience?.kujiale?.levels?.plm?.name || "PLM System",
+                bulletPoints: profileData.experience?.kujiale?.levels?.plm?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "oms": {
+                name: profileData.experience?.kujiale?.levels?.oms?.name || "OMS Platform",
+                bulletPoints: profileData.experience?.kujiale?.levels?.oms?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "parametric-cad": {
+                name: profileData.experience?.kujiale?.levels?.["parametric-cad"]?.name || "Parametric CAD",
+                bulletPoints: profileData.experience?.kujiale?.levels?.["parametric-cad"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "design-system": {
+                name: profileData.experience?.kujiale?.levels?.["design-system"]?.name || "Design System",
+                bulletPoints: profileData.experience?.kujiale?.levels?.["design-system"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              }
+            }
+          },
+          projects: {
+            levels: {
+              "diverseshot": {
+                name: profileData.experience?.projects?.levels?.diverseshot?.name || "DiverseShot",
+                bulletPoints: profileData.experience?.projects?.levels?.diverseshot?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "personal-site": {
+                name: profileData.experience?.projects?.levels?.["personal-site"]?.name || "Personal Site",
+                bulletPoints: profileData.experience?.projects?.levels?.["personal-site"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              },
+              "experiments": {
+                name: profileData.experience?.projects?.levels?.experiments?.name || "Other Experiments",
+                bulletPoints: profileData.experience?.projects?.levels?.experiments?.bulletPoints?.map(bp => ({
+                  title: bp.titleEn || bp.title || bp.titleZh,
+                  desc: bp.descEn || bp.desc || bp.descZh
+                })) || []
+              }
+            }
+          }
         }
       },
       ja: {
@@ -264,10 +517,38 @@ class GameDashboard {
           exit: profileData.ui?.exit?.ja || "終了",
           welcome: profileData.ui?.welcome?.ja || "私のポートフォリオへようこそ",
           welcomeDesc: profileData.ui?.welcomeDesc?.ja || "スタートボタンをクリックして私の作品を探索してください",
+          aboutYu: profileData.ui?.aboutYu?.ja || "Yuについて",
           cartridge: profileData.ui?.cartridge?.ja || "カートリッジ",
           level: profileData.ui?.level?.ja || "レベル",
           cards: profileData.ui?.cards?.ja || "カード",
-          gameConsole: profileData.ui?.gameConsole?.titleJa || "ゲームコンソール"
+          modal: {
+            title: profileData.ui?.modal?.title?.ja || "ゲームカートリッジを選択",
+            description: profileData.ui?.modal?.description?.ja || "コレクションからゲームを選んで冒険を始めましょう",
+            selectButton: profileData.ui?.modal?.selectButton?.ja || "このゲームを選択",
+            closeButton: profileData.ui?.modal?.closeButton?.ja || "×"
+          },
+          cartridgeInfo: {
+            d5: {
+              genre: profileData.ui?.cartridgeInfo?.d5?.genre?.ja || "リアルタイムレンダリング",
+              description: profileData.ui?.cartridgeInfo?.d5?.description?.ja || "デザイナー向けの強力な3D可視化ツールを提供するプロフェッショナルなリアルタイムレンダリングエンジン"
+            },
+            kujiale: {
+              genre: profileData.ui?.cartridgeInfo?.kujiale?.genre?.ja || "住宅デザイン",
+              description: profileData.ui?.cartridgeInfo?.kujiale?.description?.ja || "設計から施工まで全工程のソリューションを提供する住宅デザインのリーディングプラットフォーム"
+            },
+            projects: {
+              genre: profileData.ui?.cartridgeInfo?.projects?.genre?.ja || "個人プロジェクト",
+              description: profileData.ui?.cartridgeInfo?.projects?.description?.ja || "革新的なアイデアを探求し、最先端技術を実践し、興味深いプロダクト体験を創造"
+            }
+          },
+          gameConsole: profileData.ui?.gameConsole?.titleJa || "ゲームコンソール",
+          contact: {
+            title: profileData.ui?.contact?.title?.ja || "連絡先",
+            phone: profileData.ui?.contact?.phone?.ja || "📞 電話",
+            email: profileData.ui?.contact?.email?.ja || "📧 メール",
+            website: profileData.ui?.contact?.website?.ja || "🌐 ウェブサイト",
+            location: profileData.ui?.contact?.location?.ja || "📍 所在地"
+          }
         },
         skills: {
           productPlanning: {
@@ -311,6 +592,97 @@ class GameDashboard {
             school: profileData.education?.dlnu?.school?.ja || "大連民族大学 / デザイン学院",
             degree: profileData.education?.dlnu?.degree?.ja || "工業デザイン • 工学学士"
           }
+        },
+        experience: {
+          d5: {
+            levels: {
+              "team-edition": {
+                name: profileData.experience?.d5?.levels?.["team-edition"]?.nameJa || "チーム版 0→1",
+                bulletPoints: profileData.experience?.d5?.levels?.["team-edition"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "collaboration": {
+                name: profileData.experience?.d5?.levels?.collaboration?.nameJa || "コラボレーションシステム",
+                bulletPoints: profileData.experience?.d5?.levels?.collaboration?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "commercialization": {
+                name: profileData.experience?.d5?.levels?.commercialization?.nameJa || "商業化と成長",
+                bulletPoints: profileData.experience?.d5?.levels?.commercialization?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "showreel": {
+                name: profileData.experience?.d5?.levels?.showreel?.nameJa || "3Dショーリール",
+                bulletPoints: profileData.experience?.d5?.levels?.showreel?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              }
+            }
+          },
+          kujiale: {
+            levels: {
+              "plm": {
+                name: profileData.experience?.kujiale?.levels?.plm?.nameJa || "PLMシステム",
+                bulletPoints: profileData.experience?.kujiale?.levels?.plm?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "oms": {
+                name: profileData.experience?.kujiale?.levels?.oms?.nameJa || "OMSプラットフォーム",
+                bulletPoints: profileData.experience?.kujiale?.levels?.oms?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "parametric-cad": {
+                name: profileData.experience?.kujiale?.levels?.["parametric-cad"]?.nameJa || "パラメトリックCAD",
+                bulletPoints: profileData.experience?.kujiale?.levels?.["parametric-cad"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "design-system": {
+                name: profileData.experience?.kujiale?.levels?.["design-system"]?.nameJa || "デザインシステム",
+                bulletPoints: profileData.experience?.kujiale?.levels?.["design-system"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              }
+            }
+          },
+          projects: {
+            levels: {
+              "diverseshot": {
+                name: profileData.experience?.projects?.levels?.diverseshot?.nameJa || "DiverseShot",
+                bulletPoints: profileData.experience?.projects?.levels?.diverseshot?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "personal-site": {
+                name: profileData.experience?.projects?.levels?.["personal-site"]?.nameJa || "個人サイト",
+                bulletPoints: profileData.experience?.projects?.levels?.["personal-site"]?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              },
+              "experiments": {
+                name: profileData.experience?.projects?.levels?.experiments?.nameJa || "その他の実験",
+                bulletPoints: profileData.experience?.projects?.levels?.experiments?.bulletPoints?.map(bp => ({
+                  title: bp.titleJa || bp.title || bp.titleZh,
+                  desc: bp.descJa || bp.desc || bp.descZh
+                })) || []
+              }
+            }
+          }
         }
       }
     };
@@ -338,6 +710,16 @@ class GameDashboard {
   updateUITexts() {
     console.log('📝 updateUITexts called for language:', this.currentLanguage);
     
+    // 更新带有data-text-key属性的元素
+    const textKeyElements = document.querySelectorAll('[data-text-key]');
+    console.log('📝 Found', textKeyElements.length, 'elements with data-text-key');
+    textKeyElements.forEach(element => {
+      const textKey = element.dataset.textKey;
+      const text = this.getText(textKey, element.textContent);
+      console.log(`📝 Element with key "${textKey}": "${text}"`);
+      element.textContent = text;
+    });
+    
     // 更新标签页文本
     const tabButtons = document.querySelectorAll('.tab-btn');
     console.log('📝 Found', tabButtons.length, 'tab buttons');
@@ -362,6 +744,62 @@ class GameDashboard {
     if (gameModuleTitle) {
       gameModuleTitle.textContent = this.getText('ui.gameConsole', 'GAME CONSOLE');
     }
+
+    // 更新contact模块文本
+    const contactTitle = document.getElementById('contact-title');
+    const phoneLabel = document.getElementById('phone-label');
+    const emailLabel = document.getElementById('email-label');
+    const websiteLabel = document.getElementById('website-label');
+    const locationLabel = document.getElementById('location-label');
+    
+    if (contactTitle) {
+      contactTitle.textContent = this.getText('ui.contact.title');
+    }
+    if (phoneLabel) {
+      phoneLabel.textContent = this.getText('ui.contact.phone');
+    }
+    if (emailLabel) {
+      emailLabel.textContent = this.getText('ui.contact.email');
+    }
+    if (websiteLabel) {
+      websiteLabel.textContent = this.getText('ui.contact.website');
+    }
+    if (locationLabel) {
+      locationLabel.textContent = this.getText('ui.contact.location');
+    }
+
+    // 更新modal文本
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    if (modalTitle) {
+      modalTitle.textContent = this.getText('ui.modal.title');
+    }
+    if (modalDescription) {
+      modalDescription.textContent = this.getText('ui.modal.description');
+    }
+
+    // 更新cartridge信息文本
+    const cartridgeInfo = [
+      { id: 'd5', genreId: 'd5-genre', descId: 'd5-desc', btnId: 'd5-select-btn' },
+      { id: 'kujiale', genreId: 'kujiale-genre', descId: 'kujiale-desc', btnId: 'kujiale-select-btn' },
+      { id: 'projects', genreId: 'projects-genre', descId: 'projects-desc', btnId: 'projects-select-btn' }
+    ];
+
+    cartridgeInfo.forEach(info => {
+      const genreElement = document.getElementById(info.genreId);
+      const descElement = document.getElementById(info.descId);
+      const btnElement = document.getElementById(info.btnId);
+      
+      if (genreElement) {
+        genreElement.textContent = this.getText(`ui.cartridgeInfo.${info.id}.genre`);
+      }
+      if (descElement) {
+        descElement.textContent = this.getText(`ui.cartridgeInfo.${info.id}.description`);
+      }
+      if (btnElement) {
+        btnElement.textContent = this.getText('ui.modal.selectButton');
+      }
+    });
 
     // 更新卡带文本
     const cartridgeCards = document.querySelectorAll('.cartridge-card');
@@ -610,9 +1048,13 @@ class GameDashboard {
   }
 
   selectCartridge(cartridgeId) {
+    console.log('🎮 selectCartridge called with:', cartridgeId);
     this.currentCartridge = cartridgeId;
     this.currentLevel = null;
     this.isCartridgeSelected = true;
+    
+    console.log('🎮 currentCartridge set to:', this.currentCartridge);
+    console.log('🎮 isCartridgeSelected set to:', this.isCartridgeSelected);
     
     // Update indicator text
     this.updateIndicatorText();
@@ -631,8 +1073,12 @@ class GameDashboard {
   }
 
   loadCartridgeContent(cartridgeId) {
+    console.log('🎮 loadCartridgeContent called with:', cartridgeId);
     const viewport = document.getElementById('game-viewport');
     const viewportContent = viewport.querySelector('.viewport-content');
+    
+    console.log('🎮 viewport found:', !!viewport);
+    console.log('🎮 viewportContent found:', !!viewportContent);
     
     // Clear existing content
     viewportContent.innerHTML = '';
@@ -640,75 +1086,111 @@ class GameDashboard {
     // Load content based on cartridge
     switch (cartridgeId) {
       case 'd5':
+        console.log('🎮 Loading D5 content');
         this.loadD5Content(viewportContent);
         break;
       case 'kujiale':
+        console.log('🎮 Loading Kujiale content');
         this.loadKujialeContent(viewportContent);
         break;
       case 'projects':
+        console.log('🎮 Loading Projects content');
         this.loadProjectsContent(viewportContent);
         break;
     }
   }
 
   loadD5Content(container) {
+    const levels = [
+      { id: 'team-edition', name: this.getText('experience.d5.levels.team-edition.name'), icon: '🚀' },
+      { id: 'collaboration', name: this.getText('experience.d5.levels.collaboration.name'), icon: '🤝' },
+      { id: 'commercialization', name: this.getText('experience.d5.levels.commercialization.name'), icon: '📈' },
+      { id: 'showreel', name: this.getText('experience.d5.levels.showreel.name'), icon: '🎬' }
+    ];
+
     container.innerHTML = `
       <div class="cartridge-content">
         <h3>${this.getText('cartridges.d5')} | ${this.getText('profile.title')}</h3>
-        <div class="level-selector">
-          <button class="level-btn" data-level="team-edition">团队版订阅制 0→1</button>
-          <button class="level-btn" data-level="collaboration">云/局域网协作体系</button>
-          <button class="level-btn" data-level="commercialization">商业化与增长</button>
-          <button class="level-btn" data-level="showreel">3D 展示与内容上云</button>
+        <div class="level-grid">
+          ${levels.map(level => `
+            <div class="level-card" data-level="${level.id}">
+              <div class="level-icon">${level.icon}</div>
+              <div class="level-info">
+                <h4>${level.name}</h4>
+              </div>
+            </div>
+          `).join('')}
         </div>
       </div>
     `;
     
     // Add level selection handlers
-    container.querySelectorAll('.level-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        this.selectLevel(e.target.dataset.level);
+    container.querySelectorAll('.level-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        this.selectLevel(e.currentTarget.dataset.level);
       });
     });
   }
 
   loadKujialeContent(container) {
+    const levels = [
+      { id: 'plm', name: this.getText('experience.kujiale.levels.plm.name'), icon: '📋' },
+      { id: 'oms', name: this.getText('experience.kujiale.levels.oms.name'), icon: '⚙️' },
+      { id: 'parametric-cad', name: this.getText('experience.kujiale.levels.parametric-cad.name'), icon: '🔧' },
+      { id: 'design-system', name: this.getText('experience.kujiale.levels.design-system.name'), icon: '🎨' }
+    ];
+
     container.innerHTML = `
       <div class="cartridge-content">
-        <h3>酷家乐 | 高级交互设计师</h3>
-        <div class="level-selector">
-          <button class="level-btn" data-level="plm">PLM 设计生产对接</button>
-          <button class="level-btn" data-level="oms">订单 OMS 可视化</button>
-          <button class="level-btn" data-level="parametric-cad">参数化 CAD 工具</button>
-          <button class="level-btn" data-level="design-system">设计系统与研究</button>
+        <h3>${this.getText('cartridges.kujiale')} | ${this.getText('profile.title')}</h3>
+        <div class="level-grid">
+          ${levels.map(level => `
+            <div class="level-card" data-level="${level.id}">
+              <div class="level-icon">${level.icon}</div>
+              <div class="level-info">
+                <h4>${level.name}</h4>
+              </div>
+            </div>
+          `).join('')}
         </div>
       </div>
     `;
     
     // Add level selection handlers
-    container.querySelectorAll('.level-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        this.selectLevel(e.target.dataset.level);
+    container.querySelectorAll('.level-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        this.selectLevel(e.currentTarget.dataset.level);
       });
     });
   }
 
   loadProjectsContent(container) {
+    const levels = [
+      { id: 'diverseshot', name: this.getText('experience.projects.levels.diverseshot.name'), icon: '📸' },
+      { id: 'personal-site', name: this.getText('experience.projects.levels.personal-site.name'), icon: '🌐' },
+      { id: 'experiments', name: this.getText('experience.projects.levels.experiments.name'), icon: '🧪' }
+    ];
+
     container.innerHTML = `
       <div class="cartridge-content">
-        <h3>Side Projects</h3>
-        <div class="level-selector">
-          <button class="level-btn" data-level="diverseshot">DiverseShot</button>
-          <button class="level-btn" data-level="personal-site">Personal Site</button>
-          <button class="level-btn" data-level="experiments">Other Experiments</button>
+        <h3>${this.getText('cartridges.projects')} | ${this.getText('profile.title')}</h3>
+        <div class="level-grid">
+          ${levels.map(level => `
+            <div class="level-card" data-level="${level.id}">
+              <div class="level-icon">${level.icon}</div>
+              <div class="level-info">
+                <h4>${level.name}</h4>
+              </div>
+            </div>
+          `).join('')}
         </div>
       </div>
     `;
     
     // Add level selection handlers
-    container.querySelectorAll('.level-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        this.selectLevel(e.target.dataset.level);
+    container.querySelectorAll('.level-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        this.selectLevel(e.currentTarget.dataset.level);
       });
     });
   }
@@ -729,201 +1211,242 @@ class GameDashboard {
     viewportContent.innerHTML = content;
   }
 
-  getLevelContent(levelId) {
-    const contentMap = {
-      'team-edition': `
-        <div class="level-content">
-          <h3>团队版订阅制 0→1</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>ARR 超 1500 万人民币</h4>
-              <p>主导团队版从 0 到 1 的产品定义与落地，面向建筑/室内设计工作室</p>
-              <div class="metrics">
-                <span class="metric">ARR：1500万+ RMB</span>
-                <span class="metric">团队数：10K+</span>
-              </div>
-            </div>
-            <div class="content-item">
-              <h4>席位制 + 按需增长计费</h4>
-              <p>设计席位制授权与 Pay-as-you-Grow 模式，降低准入门槛，推进海外增长</p>
-              <div class="metrics">
-                <span class="metric">CAC：-50%</span>
-                <span class="metric">海外收入：+210%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'collaboration': `
-        <div class="level-content">
-          <h3>云 & 局域网协作体系</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>远程/本地多人协作</h4>
-              <p>调研并设计云 & 局域网同步机制，支持多人编辑同一项目</p>
-              <div class="metrics">
-                <span class="metric">同步效率：10x</span>
-                <span class="metric">SLA：99.9%</span>
-              </div>
-            </div>
-            <div class="content-item">
-              <h4>WorkSet 无冲突合并</h4>
-              <p>发明项目分区存档结构（WorkSet），实现多人编辑无冲突合并；集成 Dropbox/Google Drive</p>
-              <div class="metrics">
-                <span class="metric">冲突率：≈0</span>
-                <span class="metric">跨区协作：稳定</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'commercialization': `
-        <div class="level-content">
-          <h3>商业化与增长</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>订阅/定价/订单与支付</h4>
-              <p>建立订阅、定价、客户与订单管理系统，打通 Stripe 支付，实现自动化售卖</p>
-              <div class="metrics">
-                <span class="metric">支付成功率：98%</span>
-                <span class="metric">CAC：-50%</span>
-              </div>
-            </div>
-            <div class="content-item">
-              <h4>留存与流失优化</h4>
-              <p>试用转化与自动化邮件营销优化，订户流失率 23%→11%，MRR 17%→5.4%</p>
-              <div class="metrics">
-                <span class="metric">Churn：11%</span>
-                <span class="metric">MRR Churn：5.4%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'showreel': `
-        <div class="level-content">
-          <h3>3D 展示与内容上云</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>Gaussian Splatting + VR</h4>
-              <p>基于 3D Gaussian 与全景 VR 的在线展示，打通渲染-分享闭环</p>
-              <div class="metrics">
-                <span class="metric">画质：4K</span>
-                <span class="metric">VR：360°</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'plm': `
-        <div class="level-content">
-          <h3>PLM 设计生产对接</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>设计与生产一体化</h4>
-              <p>从零搭建 PLM 系统（订单后台/审核平台/数据仪表盘），支撑 300+ 家企业</p>
-              <div class="metrics">
-                <span class="metric">资产流转：100 亿+</span>
-                <span class="metric">效率：+40%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'oms': `
-        <div class="level-content">
-          <h3>订单 OMS 可视化</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>方案/图纸/JSON 一体化</h4>
-              <p>主导 OMS 改版，整合方案、图纸与 JSON 数据管理与可视化</p>
-              <div class="metrics">
-                <span class="metric">IxDA：Shortlist</span>
-                <span class="metric">准确率：99.5%</span>
-              </div>
-              <div class="badge">IxDA Shortlist</div>
-            </div>
-          </div>
-        </div>
-      `,
-      'parametric-cad': `
-        <div class="level-content">
-          <h3>参数化 CAD 工具</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>生产级建模逻辑</h4>
-              <p>与产品共同设计参数化编辑器建模与操作模式，落地办公/家具行业</p>
-              <div class="metrics">
-                <span class="metric">品牌：震旦/圣奥</span>
-                <span class="metric">实时生成</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'design-system': `
-        <div class="level-content">
-          <h3>设计系统与用户研究</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>React 组件库 & 画像</h4>
-              <p>参与 Tools UI 组件库设计维护；结合问卷与 Tableau 建互动式用户画像</p>
-              <div class="metrics">
-                <span class="metric">组件：200+ 可复用</span>
-                <span class="metric">覆盖全线工具</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'diverseshot': `
-        <div class="level-content">
-          <h3>DiverseShot</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>DiverseShot Platform</h4>
-              <p>Built photography platform promoting diversity and inclusion in visual content</p>
-              <div class="metrics">
-                <span class="metric">Users: 5K+ Active</span>
-                <span class="metric">Content: 10K+ Images</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'personal-site': `
-        <div class="level-content">
-          <h3>Personal Site</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>Interactive Portfolio</h4>
-              <p>Designed and developed game-console style personal portfolio with immersive user experience</p>
-              <div class="metrics">
-                <span class="metric">Performance: 95+ Lighthouse</span>
-                <span class="metric">Accessibility: AAA Rating</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      'experiments': `
-        <div class="level-content">
-          <h3>Other Experiments</h3>
-          <div class="content-grid">
-            <div class="content-item">
-              <h4>AI Workflow Components</h4>
-              <p>Developed reusable AI workflow components for design automation and optimization</p>
-              <div class="metrics">
-                <span class="metric">Components: 20+ Reusable</span>
-                <span class="metric">Efficiency: 60% Time Saved</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `
-    };
 
-    return contentMap[levelId] || '<div class="level-content"><h3>Content not found</h3></div>';
+  getLevelContent(levelId) {
+    console.log('🔍 getLevelContent called with:', levelId);
+    console.log('🔍 currentCartridge:', this.currentCartridge);
+    console.log('🔍 currentLanguage:', this.currentLanguage);
+    console.log('🔍 gameTexts exists:', !!this.gameTexts);
+    
+    if (!this.currentCartridge) {
+      console.log('❌ No currentCartridge');
+      return '<div class="level-content"><h3>Content not found - No cartridge</h3></div>';
+    }
+
+    if (!this.gameTexts) {
+      console.log('❌ No gameTexts');
+      return '<div class="level-content"><h3>Content not found - No gameTexts</h3></div>';
+    }
+
+    const levelData = this.gameTexts[this.currentLanguage]?.experience?.[this.currentCartridge]?.levels?.[levelId];
+    console.log('🔍 levelData:', levelData);
+    
+    if (!levelData) {
+      console.log('❌ No levelData found');
+      return '<div class="level-content"><h3>Content not found - No level data</h3></div>';
+    }
+
+    const levelName = levelData.name || levelId;
+    const bulletPoints = levelData.bulletPoints || [];
+    console.log('🔍 levelName:', levelName);
+    console.log('🔍 bulletPoints:', bulletPoints);
+
+    // 存储bullet points数据供翻页使用
+    this.currentBulletPoints = bulletPoints;
+    this.currentBulletPointIndex = 0;
+
+    // 为每个bullet point添加随机图片
+    const imageUrls = [
+      'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=300&h=200&fit=crop',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop',
+      'https://images.unsplash.com/photo-1551434678-e076c223a692?w=300&h=200&fit=crop',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop'
+    ];
+
+    const currentBP = bulletPoints[0];
+    const currentImage = imageUrls[0 % imageUrls.length];
+
+    let paginationControls = '';
+    if (bulletPoints.length > 1) {
+      paginationControls = `
+        <div class="pagination-controls">
+          <button class="pagination-btn prev-btn" onclick="gameDashboardInstance.previousBulletPoint()">
+            <span>←</span>
+          </button>
+          <button class="pagination-btn next-btn" onclick="gameDashboardInstance.nextBulletPoint()">
+            <span>→</span>
+          </button>
+              </div>
+      `;
+    }
+
+    const html = `
+        <div class="level-content">
+        <h3>${levelName}</h3>
+        ${paginationControls}
+        <div class="carousel-container">
+          <div class="carousel-wrapper">
+            ${bulletPoints.map((bp, index) => {
+              const imageUrls = [
+                'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=300&h=200&fit=crop',
+                'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop',
+                'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop',
+                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop',
+                'https://images.unsplash.com/photo-1551434678-e076c223a692?w=300&h=200&fit=crop',
+                'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop'
+              ];
+              const image = imageUrls[index % imageUrls.length];
+              return `
+                <div class="carousel-card" data-index="${index}">
+                  <div class="card-image-container">
+                    <img src="${image}" alt="${bp.title}" class="card-image" loading="lazy">
+              </div>
+                  <div class="card-content">
+                    <h4>${bp.title}</h4>
+                    <p>${bp.desc}</p>
+            </div>
+              </div>
+              `;
+            }).join('')}
+            </div>
+          </div>
+        </div>
+    `;
+    
+    console.log('🔍 Generated HTML:', html);
+    
+    // 初始化3D轮播效果
+    setTimeout(() => {
+      this.initialize3DCarousel();
+    }, 100);
+    
+    return html;
+  }
+
+  initialize3DCarousel() {
+    if (!this.currentBulletPoints || this.currentBulletPoints.length === 0) return;
+    
+    // 初始化所有卡片的3D变换
+    this.updateBulletPointDisplay();
+  }
+
+  bindResizeEvents() {
+    // 防抖处理resize事件
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // 如果当前有bulletpoints显示，重新计算3D变换
+        if (this.currentBulletPoints && this.currentBulletPoints.length > 0) {
+          this.updateBulletPointDisplay();
+        }
+      }, 100);
+    });
+  }
+
+  // 翻页功能
+  nextBulletPoint() {
+    if (!this.currentBulletPoints || this.currentBulletPoints.length <= 1) return;
+    
+    this.currentBulletPointIndex = (this.currentBulletPointIndex + 1) % this.currentBulletPoints.length;
+    this.updateBulletPointDisplay();
+  }
+
+  previousBulletPoint() {
+    if (!this.currentBulletPoints || this.currentBulletPoints.length <= 1) return;
+    
+    this.currentBulletPointIndex = this.currentBulletPointIndex === 0 
+      ? this.currentBulletPoints.length - 1 
+      : this.currentBulletPointIndex - 1;
+    this.updateBulletPointDisplay();
+  }
+
+  updateBulletPointDisplay() {
+    if (!this.currentBulletPoints || this.currentBulletPoints.length === 0) return;
+
+    // 更新所有卡片的3D变换
+    const cards = document.querySelectorAll('.carousel-card');
+    cards.forEach((card, index) => {
+      const offset = index - this.currentBulletPointIndex;
+      const absOffset = Math.abs(offset);
+      
+      // 计算3D变换 - 响应式coverflow效果
+      const isMobile = window.innerWidth <= 768;
+      const isSmallMobile = window.innerWidth <= 480;
+      const isTinyMobile = window.innerWidth <= 375;
+      const isMicroMobile = window.innerWidth <= 320;
+      
+      // 根据屏幕尺寸调整变换参数
+      let translateX, translateZ, scale, opacity, blur, rotateY;
+      
+      if (isMicroMobile) {
+        // 极小屏幕：最小变换幅度
+        translateX = offset * 30;
+        translateZ = -absOffset * 20;
+        scale = 1 - absOffset * 0.05;
+        opacity = 1 - absOffset * 0.2;
+        blur = absOffset * 1;
+        rotateY = offset * 5;
+      } else if (isTinyMobile) {
+        // 超小屏幕：减少变换幅度
+        translateX = offset * 40;
+        translateZ = -absOffset * 25;
+        scale = 1 - absOffset * 0.08;
+        opacity = 1 - absOffset * 0.25;
+        blur = absOffset * 1.5;
+        rotateY = offset * 8;
+      } else if (isSmallMobile) {
+        // 小屏幕：适中变换幅度
+        translateX = offset * 50;
+        translateZ = -absOffset * 30;
+        scale = 1 - absOffset * 0.1;
+        opacity = 1 - absOffset * 0.3;
+        blur = absOffset * 2;
+        rotateY = offset * 10;
+      } else if (isMobile) {
+        // 移动端：适中的变换幅度
+        translateX = offset * 70;
+        translateZ = -absOffset * 40;
+        scale = 1 - absOffset * 0.12;
+        opacity = 1 - absOffset * 0.35;
+        blur = absOffset * 3;
+        rotateY = offset * 15;
+      } else {
+        // 桌面端：完整的变换效果
+        translateX = offset * 120;
+        translateZ = -absOffset * 80;
+        scale = 1 - absOffset * 0.15;
+        opacity = 1 - absOffset * 0.4;
+        blur = absOffset * 4;
+        rotateY = offset * 20;
+      }
+      
+      // 限制显示范围
+      if (absOffset > 2) {
+        opacity = 0;
+        scale = 0.3;
+        blur = 10;
+      }
+      
+      // 应用变换
+      card.style.transform = `
+        translateX(${translateX}px) 
+        translateZ(${translateZ}px) 
+        scale(${scale}) 
+        rotateY(${rotateY}deg)
+      `;
+      card.style.opacity = Math.max(0, opacity);
+      card.style.filter = `blur(${blur}px)`;
+      card.style.zIndex = this.currentBulletPoints.length - absOffset;
+      
+      // 添加/移除active类
+      if (offset === 0) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+
+    // 更新按钮状态
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    if (prevBtn && nextBtn) {
+      prevBtn.disabled = false;
+      nextBtn.disabled = false;
+    }
   }
 
   updateIndicatorText() {
@@ -931,18 +1454,13 @@ class GameDashboard {
     const levelElement = document.getElementById('current-level');
     
     if (this.currentCartridge) {
-      const cartridgeNames = {
-        'd5': 'D5 Render',
-        'kujiale': 'Kujiale',
-        'projects': 'Side Projects'
-      };
-      cartridgeElement.textContent = cartridgeNames[this.currentCartridge] || this.currentCartridge;
+      cartridgeElement.textContent = this.getText(`cartridges.${this.currentCartridge}`);
     } else {
       cartridgeElement.textContent = '-';
     }
     
-    if (this.currentLevel) {
-      levelElement.textContent = this.currentLevel.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    if (this.currentLevel && this.currentCartridge) {
+      levelElement.textContent = this.getText(`experience.${this.currentCartridge}.levels.${this.currentLevel}.name`);
     } else {
       levelElement.textContent = '-';
     }
@@ -999,16 +1517,22 @@ class GameDashboard {
         }
         break;
       case 'back':
+        console.log('🔙 Back action triggered');
+        console.log('🔙 Current cartridge:', this.currentCartridge);
+        console.log('🔙 Current level:', this.currentLevel);
+        
         if (this.currentLevel) {
+          console.log('🔙 Going back to cartridge selection');
           this.currentLevel = null;
           this.updateIndicatorText();
           this.loadCartridgeContent(this.currentCartridge);
           this.showFeedback('Back to cartridge selection');
         } else if (this.currentCartridge) {
-          this.currentCartridge = null;
-          this.updateIndicatorText();
-          this.resetViewport();
-          this.showFeedback('Back to main menu');
+          // 选择卡带后不能通过B键回到欢迎消息页面
+          console.log('🔙 Cartridge selected, showing restriction message');
+          this.showFeedback('Use Exit button to return to main menu');
+        } else {
+          console.log('🔙 No cartridge selected, no action taken');
         }
         break;
     }
@@ -1039,9 +1563,22 @@ class GameDashboard {
         e.preventDefault();
         this.handleAction('confirm');
         break;
+      case 'b':
       case 'escape':
         e.preventDefault();
         this.handleAction('back');
+        break;
+      case 'arrowleft':
+        e.preventDefault();
+        if (this.currentBulletPoints && this.currentBulletPoints.length > 1) {
+          this.previousBulletPoint();
+        }
+        break;
+      case 'arrowright':
+        e.preventDefault();
+        if (this.currentBulletPoints && this.currentBulletPoints.length > 1) {
+          this.nextBulletPoint();
+        }
         break;
     }
   }
@@ -1141,6 +1678,25 @@ class GameDashboard {
     console.log('📝 Updating UI texts...');
     this.updateUITexts();
     
+    // Update indicator text
+    this.updateIndicatorText();
+    
+    // Re-render cartridge content if one is selected
+    if (this.currentCartridge) {
+      console.log('🔄 Re-rendering cartridge content for:', this.currentCartridge);
+      this.loadCartridgeContent(this.currentCartridge);
+      
+      // Re-render level content if one is selected
+      if (this.currentLevel) {
+        console.log('🔄 Re-rendering level content for:', this.currentLevel);
+        this.loadLevelContent(this.currentLevel);
+      }
+    } else {
+      // If no cartridge is selected, show welcome message in new language
+      console.log('🔄 No cartridge selected, updating welcome message');
+      this.resetViewport();
+    }
+    
     // Save language preference
     localStorage.setItem('game-dashboard-language', lang);
     console.log('💾 Language preference saved:', lang);
@@ -1165,6 +1721,20 @@ class GameDashboard {
 
 // Initialize when DOM is loaded
 let gameDashboardInstance = null;
+
+// Global error handler for uncaught promise rejections
+window.addEventListener('unhandledrejection', (event) => {
+  // Ignore Chrome extension related errors
+  if (event.reason && event.reason.message && 
+      event.reason.message.includes('message channel closed')) {
+    console.warn('⚠️ Ignoring Chrome extension error:', event.reason.message);
+    event.preventDefault();
+    return;
+  }
+  
+  // Log other unhandled promise rejections
+  console.error('❌ Unhandled promise rejection:', event.reason);
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('📄 DOM Content Loaded - Initializing GameDashboard...');
