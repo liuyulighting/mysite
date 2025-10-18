@@ -14,8 +14,92 @@ class GameDashboard {
       ja: {}
     };
     this.currentLanguage = 'zh';
+    this.isMusicEnabled = true; // 音乐开关状态
+    this.isInPreviewMode = false; // 预览模式状态
+    this.previousViewportContent = null; // 保存之前的内容
     
     this.init();
+  }
+
+  // 音效播放方法
+  playSound(soundId) {
+    const sound = document.getElementById(soundId);
+    if (sound) {
+      sound.currentTime = 0;
+      sound.play().catch(e => console.log('Audio play failed:', e));
+    }
+  }
+
+  // 播放背景音乐
+  playBackgroundMusic() {
+    const bgMusic = document.getElementById('backgroundMusic');
+    if (bgMusic) {
+      bgMusic.volume = 0.3; // 设置较低的音量
+      console.log('🎵 Attempting to play background music...');
+      bgMusic.play().then(() => {
+        console.log('🎵 Background music started successfully');
+      }).catch(e => {
+        console.log('🎵 Background music play failed:', e);
+        // 如果是用户交互限制，尝试在用户交互后播放
+        if (e.name === 'NotAllowedError') {
+          console.log('🎵 Waiting for user interaction to play music...');
+          document.addEventListener('click', () => {
+            bgMusic.play().catch(err => console.log('🎵 Music play failed after interaction:', err));
+          }, { once: true });
+        }
+      });
+    } else {
+      console.error('🎵 Background music element not found');
+    }
+  }
+
+  // 停止背景音乐
+  stopBackgroundMusic() {
+    const bgMusic = document.getElementById('backgroundMusic');
+    if (bgMusic) {
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+    }
+  }
+
+  // 切换音乐开关
+  toggleMusic() {
+    this.isMusicEnabled = !this.isMusicEnabled;
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = musicToggleBtn.querySelector('.music-icon');
+    
+    if (this.isMusicEnabled) {
+      this.playBackgroundMusic();
+      musicToggleBtn.classList.remove('muted');
+      musicToggleBtn.classList.add('playing');
+      musicIcon.textContent = '🎵';
+      musicToggleBtn.title = 'Music: ON';
+    } else {
+      this.stopBackgroundMusic();
+      musicToggleBtn.classList.remove('playing');
+      musicToggleBtn.classList.add('muted');
+      musicIcon.textContent = '🔇';
+      musicToggleBtn.title = 'Music: OFF';
+    }
+    
+    // 保存音乐状态到localStorage
+    localStorage.setItem('game-dashboard-music-enabled', this.isMusicEnabled.toString());
+  }
+
+  // 初始化音乐按钮状态
+  initializeMusicButton() {
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = musicToggleBtn.querySelector('.music-icon');
+    
+    if (this.isMusicEnabled) {
+      musicToggleBtn.classList.add('playing');
+      musicIcon.textContent = '🎵';
+      musicToggleBtn.title = 'Music: ON';
+    } else {
+      musicToggleBtn.classList.add('muted');
+      musicIcon.textContent = '🔇';
+      musicToggleBtn.title = 'Music: OFF';
+    }
   }
 
   async init() {
@@ -31,11 +115,37 @@ class GameDashboard {
     }
     console.log('🌐 Current language set to:', this.currentLanguage);
     
+    // Load saved music preference
+    const savedMusicState = localStorage.getItem('game-dashboard-music-enabled');
+    if (savedMusicState !== null) {
+      this.isMusicEnabled = savedMusicState === 'true';
+    }
+    console.log('🎵 Music enabled:', this.isMusicEnabled);
+    
     this.setupEventListeners();
     this.setupTabSwitching();
     this.setupModal();
     this.setupGameControls();
     this.updateUITexts();
+    
+    // 初始化音乐按钮状态
+    this.initializeMusicButton();
+    
+    // 播放背景音乐（如果启用）
+    if (this.isMusicEnabled) {
+      setTimeout(() => {
+        this.playBackgroundMusic();
+      }, 1000); // 延迟1秒播放，确保页面完全加载
+      
+      // 额外的保险机制：在页面完全加载后再次尝试播放
+      window.addEventListener('load', () => {
+        if (this.isMusicEnabled) {
+          setTimeout(() => {
+            this.playBackgroundMusic();
+          }, 500);
+        }
+      });
+    }
     
     // Show initial welcome message
     this.resetViewport();
@@ -83,9 +193,21 @@ class GameDashboard {
           phone: profileData.profile?.phone || "+86 18069860189"
         },
         cartridges: {
-          d5: profileData.cartridges?.[0]?.nameZh || "D5 渲染器",
-          kujiale: profileData.cartridges?.[1]?.nameZh || "酷家乐",
-          projects: profileData.cartridges?.[2]?.nameZh || "个人项目"
+          d5: {
+            name: profileData.cartridges?.[0]?.nameZh || "D5 渲染器",
+            title: profileData.cartridges?.[0]?.titleZh || "产品经理",
+            previewUrl: profileData.cartridges?.[0]?.previewUrl || ""
+          },
+          kujiale: {
+            name: profileData.cartridges?.[1]?.nameZh || "酷家乐",
+            title: profileData.cartridges?.[1]?.titleZh || "高级产品经理",
+            previewUrl: profileData.cartridges?.[1]?.previewUrl || ""
+          },
+          projects: {
+            name: profileData.cartridges?.[2]?.nameZh || "个人项目",
+            title: profileData.cartridges?.[2]?.titleZh || "产品设计师",
+            previewUrl: profileData.cartridges?.[2]?.previewUrl || ""
+          }
         },
         tabs: {
           skills: profileData.ui?.tabs?.skills?.zh || "技能",
@@ -111,6 +233,7 @@ class GameDashboard {
           cartridge: profileData.ui?.cartridge?.zh || "卡带",
           level: profileData.ui?.level?.zh || "关卡",
           cards: profileData.ui?.cards?.zh || "卡片",
+          moreDetails: profileData.ui?.moreDetails?.zh || "更多细节",
           modal: {
             title: profileData.ui?.modal?.title?.zh || "选择游戏卡带",
             description: profileData.ui?.modal?.description?.zh || "从收藏中选择一个游戏开始你的冒险",
@@ -292,9 +415,21 @@ class GameDashboard {
           phone: profileData.profile?.phone || "+86 18069860189"
         },
         cartridges: {
-          d5: profileData.cartridges?.[0]?.name || "D5 Render",
-          kujiale: profileData.cartridges?.[1]?.name || "Kujiale",
-          projects: profileData.cartridges?.[2]?.name || "Side Projects"
+          d5: {
+            name: profileData.cartridges?.[0]?.name || "D5 Render",
+            title: profileData.cartridges?.[0]?.title || "Product Manager",
+            previewUrl: profileData.cartridges?.[0]?.previewUrl || ""
+          },
+          kujiale: {
+            name: profileData.cartridges?.[1]?.name || "Kujiale",
+            title: profileData.cartridges?.[1]?.title || "Senior Product Manager",
+            previewUrl: profileData.cartridges?.[1]?.previewUrl || ""
+          },
+          projects: {
+            name: profileData.cartridges?.[2]?.name || "Side Projects",
+            title: profileData.cartridges?.[2]?.title || "Product Designer",
+            previewUrl: profileData.cartridges?.[2]?.previewUrl || ""
+          }
         },
         tabs: {
           skills: profileData.ui?.tabs?.skills?.en || "Skills",
@@ -320,6 +455,7 @@ class GameDashboard {
           cartridge: profileData.ui?.cartridge?.en || "Cartridge",
           level: profileData.ui?.level?.en || "Level",
           cards: profileData.ui?.cards?.en || "Cards",
+          moreDetails: profileData.ui?.moreDetails?.en || "More Details",
           modal: {
             title: profileData.ui?.modal?.title?.en || "Select Game Cartridge",
             description: profileData.ui?.modal?.description?.en || "Choose a game from your collection to start your adventure",
@@ -493,9 +629,21 @@ class GameDashboard {
           phone: profileData.profile?.phone || "+86 18069860189"
         },
         cartridges: {
-          d5: profileData.cartridges?.[0]?.nameJa || "D5 レンダー",
-          kujiale: profileData.cartridges?.[1]?.nameJa || "クージャレ",
-          projects: profileData.cartridges?.[2]?.nameJa || "サイドプロジェクト"
+          d5: {
+            name: profileData.cartridges?.[0]?.nameJa || "D5 レンダー",
+            title: profileData.cartridges?.[0]?.titleJa || "プロダクトマネージャー",
+            previewUrl: profileData.cartridges?.[0]?.previewUrl || ""
+          },
+          kujiale: {
+            name: profileData.cartridges?.[1]?.nameJa || "クージャレ",
+            title: profileData.cartridges?.[1]?.titleJa || "シニアプロダクトマネージャー",
+            previewUrl: profileData.cartridges?.[1]?.previewUrl || ""
+          },
+          projects: {
+            name: profileData.cartridges?.[2]?.nameJa || "サイドプロジェクト",
+            title: profileData.cartridges?.[2]?.titleJa || "プロダクトデザイナー",
+            previewUrl: profileData.cartridges?.[2]?.previewUrl || ""
+          }
         },
         tabs: {
           skills: profileData.ui?.tabs?.skills?.ja || "スキル",
@@ -521,6 +669,7 @@ class GameDashboard {
           cartridge: profileData.ui?.cartridge?.ja || "カートリッジ",
           level: profileData.ui?.level?.ja || "レベル",
           cards: profileData.ui?.cards?.ja || "カード",
+          moreDetails: profileData.ui?.moreDetails?.ja || "詳細を見る",
           modal: {
             title: profileData.ui?.modal?.title?.ja || "ゲームカートリッジを選択",
             description: profileData.ui?.modal?.description?.ja || "コレクションからゲームを選んで冒険を始めましょう",
@@ -804,9 +953,9 @@ class GameDashboard {
     // 更新卡带文本
     const cartridgeCards = document.querySelectorAll('.cartridge-card');
     const cartridgeData = [
-      { nameKey: 'cartridges.d5' },
-      { nameKey: 'cartridges.kujiale' },
-      { nameKey: 'cartridges.projects' }
+      { nameKey: 'cartridges.d5.name' },
+      { nameKey: 'cartridges.kujiale.name' },
+      { nameKey: 'cartridges.projects.name' }
     ];
 
     cartridgeCards.forEach((card, index) => {
@@ -937,6 +1086,7 @@ class GameDashboard {
         
         if (e.target.classList.contains('lang-btn')) {
           console.log('🎯 Language button clicked:', e.target.dataset.lang);
+          this.playSound('buttonClickSound');
           this.switchLanguage(e.target.dataset.lang);
         } else {
           console.log('❌ Click not on language button');
@@ -949,9 +1099,25 @@ class GameDashboard {
       console.error('❌ Language switcher not found!');
     }
 
+    // Music toggle button
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    if (musicToggleBtn) {
+      const musicHandler = (e) => {
+        e.preventDefault();
+        this.playSound('buttonClickSound');
+        this.toggleMusic();
+      };
+      musicToggleBtn.addEventListener('click', musicHandler);
+      this.eventListeners.push({ element: musicToggleBtn, event: 'click', handler: musicHandler });
+      console.log('✅ Music toggle button event listener added');
+    } else {
+      console.error('❌ Music toggle button not found!');
+    }
+
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
       const handler = (e) => {
+        this.playSound('buttonClickSound');
         this.switchTab(e.target.dataset.tab);
       };
       btn.addEventListener('click', handler);
@@ -964,8 +1130,12 @@ class GameDashboard {
     const startButton = document.getElementById('start-button');
     const startHandler = () => {
       if (this.isCartridgeSelected) {
+        // 退出模式，播放game-over音效
+        this.playSound('gameOverSound');
         this.exitCartridge();
       } else {
+        // 开始模式，播放start音效
+        this.playSound('gameStartSound');
         this.openModal();
       }
     };
@@ -974,6 +1144,7 @@ class GameDashboard {
 
     const modalClose = document.getElementById('modal-close');
     const closeHandler = () => {
+      this.playSound('buttonClickSound');
       this.closeModal();
     };
     modalClose.addEventListener('click', closeHandler);
@@ -982,6 +1153,7 @@ class GameDashboard {
     // Cartridge selection
     document.querySelectorAll('.cartridge-card').forEach(card => {
       const handler = () => {
+        this.playSound('buttonClickSound');
         const cartridge = card.dataset.cartridge;
         this.selectCartridge(cartridge);
       };
@@ -1110,7 +1282,7 @@ class GameDashboard {
 
     container.innerHTML = `
       <div class="cartridge-content">
-        <h3>${this.getText('cartridges.d5')} | ${this.getText('profile.title')}</h3>
+        <h3>${this.getText('cartridges.d5.name')} | ${this.getText('cartridges.d5.title')}</h3>
         <div class="level-grid">
           ${levels.map(level => `
             <div class="level-card" data-level="${level.id}">
@@ -1127,6 +1299,7 @@ class GameDashboard {
     // Add level selection handlers
     container.querySelectorAll('.level-card').forEach(card => {
       card.addEventListener('click', (e) => {
+        this.playSound('buttonClickSound');
         this.selectLevel(e.currentTarget.dataset.level);
       });
     });
@@ -1142,7 +1315,7 @@ class GameDashboard {
 
     container.innerHTML = `
       <div class="cartridge-content">
-        <h3>${this.getText('cartridges.kujiale')} | ${this.getText('profile.title')}</h3>
+        <h3>${this.getText('cartridges.kujiale.name')} | ${this.getText('cartridges.kujiale.title')}</h3>
         <div class="level-grid">
           ${levels.map(level => `
             <div class="level-card" data-level="${level.id}">
@@ -1159,6 +1332,7 @@ class GameDashboard {
     // Add level selection handlers
     container.querySelectorAll('.level-card').forEach(card => {
       card.addEventListener('click', (e) => {
+        this.playSound('buttonClickSound');
         this.selectLevel(e.currentTarget.dataset.level);
       });
     });
@@ -1173,7 +1347,7 @@ class GameDashboard {
 
     container.innerHTML = `
       <div class="cartridge-content">
-        <h3>${this.getText('cartridges.projects')} | ${this.getText('profile.title')}</h3>
+        <h3>${this.getText('cartridges.projects.name')} | ${this.getText('cartridges.projects.title')}</h3>
         <div class="level-grid">
           ${levels.map(level => `
             <div class="level-card" data-level="${level.id}">
@@ -1190,6 +1364,7 @@ class GameDashboard {
     // Add level selection handlers
     container.querySelectorAll('.level-card').forEach(card => {
       card.addEventListener('click', (e) => {
+        this.playSound('buttonClickSound');
         this.selectLevel(e.currentTarget.dataset.level);
       });
     });
@@ -1288,17 +1463,26 @@ class GameDashboard {
                 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop'
               ];
               const image = imageUrls[index % imageUrls.length];
-              return `
-                <div class="carousel-card" data-index="${index}">
-                  <div class="card-image-container">
-                    <img src="${image}" alt="${bp.title}" class="card-image" loading="lazy">
-              </div>
-                  <div class="card-content">
-                    <h4>${bp.title}</h4>
-                    <p>${bp.desc}</p>
-            </div>
-              </div>
-              `;
+              const previewUrl = this.getText(`cartridges.${this.currentCartridge}.previewUrl`);
+              const hasPreview = previewUrl && previewUrl.trim() !== '';
+              
+      return `
+        <div class="carousel-card" data-index="${index}">
+          <div class="card-image-container">
+            <img src="${image}" alt="${bp.title}" class="card-image" loading="lazy">
+          </div>
+          <div class="card-content">
+            <h4>${bp.title}</h4>
+            <p>${bp.desc}</p>
+            ${hasPreview ? `<button class="preview-btn" onclick="gameDashboardInstance.showPreview('${previewUrl}')" title="预览">
+              <span class="preview-text">${this.getText('ui.moreDetails')}</span>
+              <svg class="preview-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>` : ''}
+          </div>
+        </div>
+      `;
             }).join('')}
             </div>
           </div>
@@ -1454,7 +1638,7 @@ class GameDashboard {
     const levelElement = document.getElementById('current-level');
     
     if (this.currentCartridge) {
-      cartridgeElement.textContent = this.getText(`cartridges.${this.currentCartridge}`);
+      cartridgeElement.textContent = this.getText(`cartridges.${this.currentCartridge}.name`);
     } else {
       cartridgeElement.textContent = '-';
     }
@@ -1466,10 +1650,63 @@ class GameDashboard {
     }
   }
 
+  showPreview(url) {
+    console.log('🔍 showPreview called with URL:', url);
+    
+    // 播放按钮点击音效
+    this.playSound('buttonClickSound');
+    
+    // 保存当前状态，用于返回
+    this.previousViewportContent = document.querySelector('.viewport-content').innerHTML;
+    this.isInPreviewMode = true;
+    
+    // 在viewport-content中显示iframe（无工具栏）
+    const viewportContent = document.querySelector('.viewport-content');
+    viewportContent.innerHTML = `
+      <div class="preview-container">
+        <div class="preview-iframe-wrapper">
+          <iframe 
+            src="${url}" 
+            frameborder="0" 
+            allowfullscreen
+            loading="lazy"
+            title="预览内容"
+            class="preview-iframe">
+          </iframe>
+        </div>
+      </div>
+    `;
+    
+    // 显示feedback message提示B键返回
+    this.showFeedback('Press B to return');
+    
+    // 更新状态指示器
+    this.updateIndicatorText();
+  }
+
+  closePreview() {
+    // 播放按钮点击音效
+    this.playSound('buttonClickSound');
+    
+    if (this.isInPreviewMode && this.previousViewportContent) {
+      // 恢复之前的内容
+      const viewportContent = document.querySelector('.viewport-content');
+      viewportContent.innerHTML = this.previousViewportContent;
+      
+      // 重置状态
+      this.isInPreviewMode = false;
+      this.previousViewportContent = null;
+      
+      // 更新状态指示器
+      this.updateIndicatorText();
+    }
+  }
+
   setupGameControls() {
     // AWSD controls
     document.querySelectorAll('.control-btn').forEach(btn => {
       const handler = (e) => {
+        this.playSound('buttonClickSound');
         const direction = e.target.dataset.direction;
         this.handleDirection(direction);
       };
@@ -1480,6 +1717,7 @@ class GameDashboard {
     // A/B buttons
     document.querySelectorAll('.action-btn').forEach(btn => {
       const handler = (e) => {
+        this.playSound('buttonClickSound');
         const action = e.target.dataset.action;
         this.handleAction(action);
       };
@@ -1520,6 +1758,15 @@ class GameDashboard {
         console.log('🔙 Back action triggered');
         console.log('🔙 Current cartridge:', this.currentCartridge);
         console.log('🔙 Current level:', this.currentLevel);
+        console.log('🔙 Is in preview mode:', this.isInPreviewMode);
+        
+        // 如果在预览模式，先退出预览
+        if (this.isInPreviewMode) {
+          console.log('🔙 Exiting preview mode');
+          this.closePreview();
+          this.showFeedback('Exited preview mode');
+          return;
+        }
         
         if (this.currentLevel) {
           console.log('🔙 Going back to cartridge selection');

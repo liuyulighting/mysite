@@ -18,6 +18,10 @@
       "name": "D5 Render",
       "nameZh": "D5 渲染器",
       "nameJa": "D5 レンダー",
+      "title": "Product Manager",
+      "titleZh": "产品经理",
+      "titleJa": "プロダクトマネージャー",
+      "previewUrl": "https://youtu.be/8cEdndsuzSE?si=GPoaOOksmdySZb2M",
       "color": "blue",
       "order": 1
     },
@@ -26,6 +30,10 @@
       "name": "Kujiale",
       "nameZh": "酷家乐",
       "nameJa": "クージャレ",
+      "title": "Senior Product Manager",
+      "titleZh": "高级产品经理",
+      "titleJa": "シニアプロダクトマネージャー",
+      "previewUrl": "https://www.figma.com/board/I1tHfG34K9XTyshC1VPZJd/SSO%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2?node-id=0-1&t=VkiGCqXXYfaXPYRX-1",
       "color": "orange",
       "order": 2
     },
@@ -34,6 +42,10 @@
       "name": "Side Projects",
       "nameZh": "个人项目",
       "nameJa": "サイドプロジェクト",
+      "title": "Product Designer",
+      "titleZh": "产品设计师",
+      "titleJa": "プロダクトデザイナー",
+      "previewUrl": "https://www.figma.com/board/I1tHfG34K9XTyshC1VPZJd/SSO%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2?node-id=0-1&t=VkiGCqXXYfaXPYRX-1",
       "color": "red",
       "order": 3
     }
@@ -55,7 +67,7 @@
               "desc": "Led product definition and implementation of D5 Team Edition from concept to market launch",
               "descEn": "Led product definition and implementation of D5 Team Edition from concept to market launch",
               "descZh": "主导D5团队版从概念到市场发布的产品定义与落地",
-              "descJa": "D5チーム版の概念から市場リリースまでの製品定義と実装を主導"
+              "descJa": "D5チーム版の概念から市場リリースまでの製品定義と実装を主導。D5チーム版の概念から市場リリースまでの製品定義と実装を主導"
             },
             {
               "title": "Achieved ARR > RMB 15M",
@@ -409,6 +421,11 @@
       "zh": "关于禹",
       "en": "About Yu",
       "ja": "Yuについて"
+    },
+    "moreDetails": {
+      "zh": "更多细节",
+      "en": "More Details",
+      "ja": "詳細を見る"
     },
     "modal": {
       "title": {

@@ -20,6 +20,20 @@
 
       gtag('config', 'G-C2TV7C3CCL');
     </script>
+    
+    <!-- Audio elements for sound effects -->
+    <audio id="gameStartSound" preload="auto">
+        <source src="assets/game-start-6104.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="backgroundMusic" preload="auto" loop>
+        <source src="assets/game-music-loop-7-145285.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="gameOverSound" preload="auto">
+        <source src="assets/game-over-arcade-6435.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="buttonClickSound" preload="auto">
+        <source src="assets/game-start-317318.mp3" type="audio/mpeg">
+    </audio>
 </head>
 <body>
     <div class="game-container">
@@ -37,6 +51,11 @@
                 <button class="lang-btn active" data-lang="zh" onclick="console.log('🔥 中文 button clicked via onclick'); console.log('🔥 gameDashboardInstance exists:', !!window.gameDashboardInstance); if(window.gameDashboardInstance) { console.log('🔥 Calling switchLanguage(zh)'); window.gameDashboardInstance.switchLanguage('zh'); } else { console.error('🔥 gameDashboardInstance not found!'); }">中文</button>
                 <button class="lang-btn" data-lang="en" onclick="console.log('🔥 English button clicked via onclick'); console.log('🔥 gameDashboardInstance exists:', !!window.gameDashboardInstance); if(window.gameDashboardInstance) { console.log('🔥 Calling switchLanguage(en)'); window.gameDashboardInstance.switchLanguage('en'); } else { console.error('🔥 gameDashboardInstance not found!'); }">English</button>
                 <button class="lang-btn" data-lang="ja" onclick="console.log('🔥 日本語 button clicked via onclick'); console.log('🔥 gameDashboardInstance exists:', !!window.gameDashboardInstance); if(window.gameDashboardInstance) { console.log('🔥 Calling switchLanguage(ja)'); window.gameDashboardInstance.switchLanguage('ja'); } else { console.error('🔥 gameDashboardInstance not found!'); }">日本語</button>
+                
+                <!-- Music Toggle Button -->
+                <button class="music-toggle-btn" id="musicToggleBtn" title="Toggle Background Music">
+                    <span class="music-icon">🎵</span>
+                </button>
             </div>
             <!-- Left Panel: About Me -->
             <section class="about-me-panel">
@@ -226,8 +245,7 @@
                 <div class="cartridge-grid">
                     <div class="cartridge-card" data-cartridge="d5">
                         <div class="cartridge-image">
-                            <div class="cartridge-visual d5-cartridge">
-                                <span class="cartridge-label">D5</span>
+                            <div class="cartridge-visual d5-cartridge" style="background-image: url('assets/card1.png'); background-size: cover; background-position: center;">
                             </div>
                             <div class="year-tag">2024</div>
                         </div>
@@ -240,8 +258,7 @@
                     </div>
                     <div class="cartridge-card" data-cartridge="kujiale">
                         <div class="cartridge-image">
-                            <div class="cartridge-visual kujiale-cartridge">
-                                <span class="cartridge-label">酷家乐</span>
+                            <div class="cartridge-visual kujiale-cartridge" style="background-image: url('assets/card2.jpg'); background-size: cover; background-position: center;">
                             </div>
                             <div class="year-tag">2023</div>
                         </div>
@@ -254,8 +271,7 @@
                     </div>
                     <div class="cartridge-card" data-cartridge="projects">
                         <div class="cartridge-image">
-                            <div class="cartridge-visual projects-cartridge">
-                                <span class="cartridge-label">项目</span>
+                            <div class="cartridge-visual projects-cartridge" style="background-image: url('assets/card3.jpg'); background-size: cover; background-position: center;">
                             </div>
                             <div class="year-tag">2024</div>
                         </div>
@@ -274,6 +290,12 @@
     <script>
         // 返回首页功能
         function goToHome() {
+            // 播放按钮音效
+            const buttonSound = document.getElementById('buttonClickSound');
+            if (buttonSound) {
+                buttonSound.currentTime = 0;
+                buttonSound.play().catch(e => console.log('Audio play failed:', e));
+            }
             window.location.href = 'index.html?from=game';
         }
         

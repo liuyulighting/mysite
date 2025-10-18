@@ -28,6 +28,11 @@
       gtag('config', 'G-C2TV7C3CCL');
     </script>
     
+    <!-- Audio elements for sound effects -->
+    <audio id="gameStartSound" preload="auto">
+        <source src="assets/game-start-6104.mp3" type="audio/mpeg">
+    </audio>
+    
     <style>
         * {
             margin: 0;
@@ -60,6 +65,12 @@
             pointer-events: none;
             z-index: 1;
             overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .digital-rain.show {
+            opacity: 1;
         }
         
         .rain-column {
@@ -716,11 +727,20 @@ users actually want to use.`;
                     // 确保按钮可见
                     const screenFrame = document.querySelector('.screen-frame');
                     screenFrame.scrollTop = screenFrame.scrollHeight;
+                    
+                    // 打字动画完成后显示数字瀑布特效
+                    const digitalRain = document.getElementById('digitalRain');
+                    digitalRain.classList.add('show');
                 }, 500);
             }
         }
         
         function startGame() {
+            // 播放开始音效
+            const startSound = document.getElementById('gameStartSound');
+            startSound.currentTime = 0;
+            startSound.play().catch(e => console.log('Audio play failed:', e));
+            
             // 显示转场动画
             const overlay = document.getElementById('transitionOverlay');
             overlay.classList.add('active');
@@ -755,7 +775,7 @@ users actually want to use.`;
         
         // 页面加载完成后开始打字动画和字符瀑布
         window.addEventListener('load', () => {
-            // 创建字符瀑布特效
+            // 创建字符瀑布特效（初始时隐藏）
             createDigitalRain();
             
             // 定期更新字符瀑布
