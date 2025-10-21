@@ -28,9 +28,19 @@
       gtag('config', 'G-C2TV7C3CCL');
     </script>
     
+    <!-- Resource Hints: prepare dashboard for faster transition -->
+    <link rel="prefetch" href="game-dashboard.html" as="document">
+    <link rel="prefetch" href="css/game-dashboard.css" as="style">
+    <link rel="prefetch" href="js/game-dashboard.js" as="script">
+    <link rel="prefetch" href="data/profile.json" as="fetch" crossorigin>
+    
     <!-- Audio elements for sound effects -->
     <audio id="gameStartSound" preload="auto">
         <source src="assets/game-start-6104.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Background music for index page -->
+    <audio id="indexBgMusic" preload="auto" loop>
+        <source src="assets/short-game-music-loop-38898.mp3" type="audio/mpeg">
     </audio>
     
     <style>
@@ -367,6 +377,37 @@
         .back-button.show {
             opacity: 1;
         }
+
+        /* Index page music toggle */
+        .music-toggle-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            color: #111827;
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .music-toggle-index.muted {
+            opacity: 0.8;
+        }
+        .music-toggle-icon {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            background: currentColor;
+            -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5l-6 6H2v2h3l6 6V5z"/></svg>') center/contain no-repeat;
+                    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5l-6 6H2v2h3l6 6V5z"/></svg>') center/contain no-repeat;
+        }
         
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -405,12 +446,26 @@
             z-index: 9999;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 0.6s ease-in-out;
+            transform: scale(1);
         }
         
         .transition-overlay.active {
             opacity: 1;
             pointer-events: all;
+            animation: overlayZoom 0.8s ease-in-out forwards;
+            backdrop-filter: blur(6px) saturate(120%);
+        }
+        /* flash pulse */
+        .transition-overlay.active::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0.0) 40%);
+            mix-blend-mode: screen;
+            opacity: 0;
+            animation: flashPulse 0.7s ease-out 0.1s 1;
+            pointer-events: none;
         }
         
         .transition-content {
@@ -423,7 +478,7 @@
             font-size: 18px;
             text-align: center;
             opacity: 0;
-            animation: transitionText 2.5s ease-in-out;
+            animation: transitionText 2s ease-in-out;
         }
         
         .transition-icon {
@@ -493,20 +548,35 @@
         @keyframes transitionText {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0.8) translateY(20px);
+                transform: translate(-50%, -50%) scale(0.7) translateY(30px);
             }
             15% {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1) translateY(0);
+                transform: translate(-50%, -50%) scale(1.02) translateY(0);
             }
             85% {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1) translateY(0);
+                transform: translate(-50%, -50%) scale(1.02) translateY(0);
             }
             100% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0.9) translateY(-10px);
+                transform: translate(-50%, -50%) scale(0.95) translateY(-10px);
             }
+        }
+
+        @keyframes overlayZoom {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.04);
+            }
+        }
+
+        @keyframes flashPulse {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            100% { opacity: 0; }
         }
         
         .loading-dots {
@@ -619,6 +689,12 @@
     <!-- 返回按钮（在game-dashboard页面显示） -->
     <button class="back-button" id="backButton" onclick="goBack()">
         ← BACK
+    </button>
+
+    <!-- Music toggle button -->
+    <button id="indexMusicToggle" class="music-toggle-index" type="button" title="Toggle Music">
+        <span class="music-toggle-icon" aria-hidden="true"></span>
+        <span id="indexMusicLabel">Music: On</span>
     </button>
     
     <!-- 转场动画覆盖层 -->
@@ -756,14 +832,18 @@ users actually want to use.`;
         
         function createTransitionParticles() {
             const particlesContainer = document.getElementById('transitionParticles');
-            const particleCount = 20;
+            const particleCount = 300;
+            const colors = ['#00ff00', '#4a9eff'];
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 2 + 's';
-                particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                particle.style.width = (2 + Math.random() * 3) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = (Math.random() * 0.6) + 's';
+                particle.style.animationDuration = (1.6 + Math.random() * 1.8) + 's';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
                 particlesContainer.appendChild(particle);
             }
         }
@@ -772,8 +852,57 @@ users actually want to use.`;
             // 返回到game-dashboard页面
             window.location.href = 'game-dashboard.html';
         }
+
+        // ===== Index background music control =====
+        const INDEX_MUSIC_KEY = 'indexMusicEnabled';
+        const indexBgMusic = document.getElementById('indexBgMusic');
+        const indexMusicToggle = document.getElementById('indexMusicToggle');
+        const indexMusicLabel = document.getElementById('indexMusicLabel');
+        let indexMusicEnabled = (localStorage.getItem(INDEX_MUSIC_KEY) ?? 'true') === 'true';
+
+        function updateIndexMusicButton() {
+            if (indexMusicEnabled) {
+                indexMusicToggle.classList.remove('muted');
+                indexMusicLabel.textContent = 'Music: On';
+            } else {
+                indexMusicToggle.classList.add('muted');
+                indexMusicLabel.textContent = 'Music: Off';
+            }
+        }
+
+        async function tryPlayIndexMusic() {
+            if (!indexMusicEnabled) return;
+            try {
+                indexBgMusic.volume = 0.6;
+                await indexBgMusic.play();
+            } catch (err) {
+                // Autoplay blocked; wait for first user interaction
+                const onFirstInteract = async () => {
+                    document.removeEventListener('click', onFirstInteract);
+                    document.removeEventListener('keydown', onFirstInteract);
+                    if (indexMusicEnabled) {
+                        try { await indexBgMusic.play(); } catch(e) {}
+                    }
+                };
+                document.addEventListener('click', onFirstInteract, { once: true });
+                document.addEventListener('keydown', onFirstInteract, { once: true });
+            }
+        }
+
+        function toggleIndexMusic() {
+            indexMusicEnabled = !indexMusicEnabled;
+            localStorage.setItem(INDEX_MUSIC_KEY, String(indexMusicEnabled));
+            updateIndexMusicButton();
+            if (indexMusicEnabled) {
+                tryPlayIndexMusic();
+            } else {
+                indexBgMusic.pause();
+            }
+        }
+
+        indexMusicToggle.addEventListener('click', toggleIndexMusic);
         
-        // 页面加载完成后开始打字动画和字符瀑布
+        // 页面加载完成后开始打字动画和字符瀑布，并尝试播放背景音乐
         window.addEventListener('load', () => {
             // 创建字符瀑布特效（初始时隐藏）
             createDigitalRain();
@@ -785,6 +914,9 @@ users actually want to use.`;
             setTimeout(() => {
                 typeText();
             }, 2200); // 延迟2.2秒开始打字，确保容器动画完成
+
+            updateIndexMusicButton();
+            tryPlayIndexMusic();
         });
         
         // 添加键盘支持

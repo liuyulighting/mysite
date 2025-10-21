@@ -66,10 +66,9 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--game-bg);
-  background-color: #e5e5f7;
-  background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
-  background-size: 10px 10px;
+  background-color: #ffffff;
+  background-image: radial-gradient(#545cef 1px, #ffffff 1px);
+  background-size: 20px 20px;
   color: var(--text-on-dark);
   line-height: 1.5;
   overflow-x: hidden;
@@ -78,39 +77,14 @@ body {
 /* Game Container */
 .game-container {
   min-height: 100vh;
-  margin: 8px;
-  padding: var(--spacing-lg);
-  background: var(--game-bg);
-  background-color: #e5e5f7;
-  background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
-  background-size: 10px 10px;
+  margin: 0;
+  padding: 0 var(--spacing-lg) var(--spacing-lg);
+  background: transparent; /* pattern sits on body below */
   display: flex;
-  align-items: center;
+  align-items: center; /* vertical center */
   justify-content: center;
   position: relative;
-  overflow: hidden;
-}
-
-/* 添加动态背景粒子效果 */
-.game-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
-  animation: backgroundFloat 20s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes backgroundFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33% { transform: translateY(-20px) rotate(1deg); }
-  66% { transform: translateY(10px) rotate(-1deg); }
+  overflow: visible; /* prevent cropping of shadows/glows */
 }
 
 /* Back to Home Button */
@@ -340,6 +314,7 @@ body {
 
 /* Game Dashboard */
 .game-dashboard {
+  margin-top: 0; /* ensure no accidental top margin */
   width: 100%;
   max-width: 1400px;
   display: grid;
@@ -356,6 +331,50 @@ body {
   backdrop-filter: blur(10px);
   z-index: 10;
 }
+
+/* Electric Border variables */
+.game-dashboard {
+  --electric-border-color: #60a5fa; /* vivid blue */
+  --electric-light-color: oklch(from var(--electric-border-color) l c h);
+}
+
+/* Electric Border core layer */
+.game-dashboard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--electric-border-color);
+  filter: url(#turbulent-displace);
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* Outer subtle border to align displaced strokes */
+.game-dashboard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--electric-border-color);
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* Edge glow layers */
+.game-dashboard .eb-glow-1,
+.game-dashboard .eb-glow-2,
+.game-dashboard .eb-bg-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  pointer-events: none;
+}
+
+.game-dashboard .eb-glow-1 { border: 2px solid var(--electric-border-color); filter: blur(1px); z-index: -1; }
+.game-dashboard .eb-glow-2 { border: 2px solid var(--electric-border-color); filter: blur(6px); z-index: -2; }
+.game-dashboard .eb-bg-glow { filter: blur(36px); transform: scale(1.06); opacity: 0.4; z-index: -3;
+  background: linear-gradient(-30deg, var(--electric-border-color), transparent, var(--electric-border-color)); }
 
 
 /* Panel Base Styles */
@@ -811,7 +830,7 @@ body {
 .viewport-content {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(254, 188, 84, 0.1) 0%, rgba(250, 45, 26, 0.1) 100%);
+  background: transparent;
   overflow-y: auto;
   overflow-x: hidden;
   padding: var(--spacing-md);
