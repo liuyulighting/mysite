@@ -104,6 +104,10 @@ class GameDashboard {
 
   async init() {
     console.log('🚀 GameDashboard init started');
+    
+    // 性能监控
+    this.startPerformanceMonitoring();
+    
     await this.loadGameTexts();
     console.log('📚 Game texts loaded:', this.gameTexts);
     
@@ -1540,6 +1544,13 @@ class GameDashboard {
   updateBulletPointDisplay() {
     if (!this.currentBulletPoints || this.currentBulletPoints.length === 0) return;
 
+    // 使用requestAnimationFrame优化动画性能
+    requestAnimationFrame(() => {
+      this.performBulletPointUpdate();
+    });
+  }
+
+  performBulletPointUpdate() {
     // 更新所有卡片的3D变换
     const cards = document.querySelectorAll('.carousel-card');
     cards.forEach((card, index) => {
@@ -1604,13 +1615,8 @@ class GameDashboard {
         blur = 10;
       }
       
-      // 应用变换
-      card.style.transform = `
-        translateX(${translateX}px) 
-        translateZ(${translateZ}px) 
-        scale(${scale}) 
-        rotateY(${rotateY}deg)
-      `;
+      // 应用变换 - 使用transform3d优化性能
+      card.style.transform = `translate3d(${translateX}px, 0, ${translateZ}px) scale(${scale}) rotateY(${rotateY}deg)`;
       card.style.opacity = Math.max(0, opacity);
       card.style.filter = `blur(${blur}px)`;
       card.style.zIndex = this.currentBulletPoints.length - absOffset;
@@ -1660,7 +1666,7 @@ class GameDashboard {
     this.previousViewportContent = document.querySelector('.viewport-content').innerHTML;
     this.isInPreviewMode = true;
     
-    // 在viewport-content中显示iframe（无工具栏）
+    // 在viewport-content中显示iframe（无工具栏）- 优化版本
     const viewportContent = document.querySelector('.viewport-content');
     viewportContent.innerHTML = `
       <div class="preview-container">
@@ -1671,7 +1677,9 @@ class GameDashboard {
             allowfullscreen
             loading="lazy"
             title="预览内容"
-            class="preview-iframe">
+            class="preview-iframe"
+            sandbox="allow-scripts allow-same-origin allow-presentation"
+            referrerpolicy="no-referrer-when-downgrade">
           </iframe>
         </div>
       </div>
@@ -1948,6 +1956,31 @@ class GameDashboard {
     localStorage.setItem('game-dashboard-language', lang);
     console.log('💾 Language preference saved:', lang);
     console.log('✅ Language switch completed');
+  }
+
+  // 性能监控方法
+  startPerformanceMonitoring() {
+    // 监控FPS
+    let lastTime = performance.now();
+    let frameCount = 0;
+    
+    const measureFPS = () => {
+      frameCount++;
+      const currentTime = performance.now();
+      
+      if (currentTime - lastTime >= 1000) {
+        const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+        if (fps < 30) {
+          console.warn(`⚠️ Low FPS detected: ${fps}`);
+        }
+        frameCount = 0;
+        lastTime = currentTime;
+      }
+      
+      requestAnimationFrame(measureFPS);
+    };
+    
+    requestAnimationFrame(measureFPS);
   }
 
   // Cleanup method to remove all event listeners

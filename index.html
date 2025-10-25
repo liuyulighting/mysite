@@ -737,11 +737,12 @@ users actually want to use.`;
             document.getElementById('backButton').classList.add('show');
         }
         
-        // 创建字符瀑布特效
+        // 创建字符瀑布特效 - 优化版本
         function createDigitalRain() {
             const digitalRain = document.getElementById('digitalRain');
             const screenWidth = window.innerWidth;
-            const columnCount = Math.floor(screenWidth / 12); // 每12px一列，增加密度
+            // 减少密度以提高性能：每20px一列而不是12px
+            const columnCount = Math.floor(screenWidth / 20);
             
             for (let i = 0; i < columnCount; i++) {
                 const column = document.createElement('div');
@@ -751,13 +752,13 @@ users actually want to use.`;
                 const randomSize = sizeClasses[Math.floor(Math.random() * sizeClasses.length)];
                 column.className = `rain-column ${randomSize}`;
                 
-                column.style.left = (i * 12) + 'px';
+                column.style.left = (i * 20) + 'px';
                 column.style.animationDelay = Math.random() * 8 + 's';
                 column.style.animationDuration = (4 + Math.random() * 4) + 's';
                 
-                // 生成随机字符
+                // 减少字符数量以提高性能
                 let columnText = '';
-                const charCount = 30 + Math.floor(Math.random() * 40); // 增加字符数量
+                const charCount = 20 + Math.floor(Math.random() * 20); // 减少字符数量
                 for (let j = 0; j < charCount; j++) {
                     columnText += matrixChars[Math.floor(Math.random() * matrixChars.length)] + '<br>';
                 }
@@ -768,11 +769,11 @@ users actually want to use.`;
             }
         }
         
-        // 更新字符瀑布
+        // 更新字符瀑布 - 优化版本
         function updateDigitalRain() {
             rainColumns.forEach(column => {
                 let columnText = '';
-                const charCount = 30 + Math.floor(Math.random() * 40); // 增加字符数量
+                const charCount = 20 + Math.floor(Math.random() * 20); // 减少字符数量
                 for (let j = 0; j < charCount; j++) {
                     columnText += matrixChars[Math.floor(Math.random() * matrixChars.length)] + '<br>';
                 }
@@ -907,8 +908,8 @@ users actually want to use.`;
             // 创建字符瀑布特效（初始时隐藏）
             createDigitalRain();
             
-            // 定期更新字符瀑布
-            setInterval(updateDigitalRain, 2000);
+            // 定期更新字符瀑布 - 增加间隔时间以提高性能
+            setInterval(updateDigitalRain, 4000);
             
             // 等待容器动画完成后再开始打字动画
             setTimeout(() => {

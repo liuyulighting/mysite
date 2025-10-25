@@ -64,6 +64,19 @@
   box-sizing: border-box;
 }
 
+/* 性能优化：只对动画元素应用硬件加速 */
+.carousel-card,
+.game-dashboard::before,
+.game-dashboard::after,
+.game-dashboard .eb-glow-1,
+.game-dashboard .eb-glow-2,
+.game-dashboard .eb-bg-glow {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: #ffffff;
@@ -2031,7 +2044,9 @@ button:focus-visible,
     0 8px 25px rgba(0, 0, 0, 0.12),
     0 4px 12px rgba(59, 130, 246, 0.08);
   backdrop-filter: blur(8px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s ease,
+              filter 0.3s ease;
   transform-style: preserve-3d;
   cursor: pointer;
   overflow: hidden;
@@ -2039,6 +2054,10 @@ button:focus-visible,
   filter: blur(2px);
   display: flex;
   flex-direction: column;
+  /* 性能优化：启用硬件加速 */
+  will-change: transform, opacity, filter;
+  /* 使用transform3d强制GPU加速 */
+  transform: translate3d(0, 0, 0);
 }
 
 .carousel-card.active {
