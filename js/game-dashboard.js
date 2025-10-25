@@ -105,9 +105,6 @@ class GameDashboard {
   async init() {
     console.log('🚀 GameDashboard init started');
     
-    // 性能监控
-    this.startPerformanceMonitoring();
-    
     await this.loadGameTexts();
     console.log('📚 Game texts loaded:', this.gameTexts);
     
@@ -1958,30 +1955,6 @@ class GameDashboard {
     console.log('✅ Language switch completed');
   }
 
-  // 性能监控方法
-  startPerformanceMonitoring() {
-    // 监控FPS
-    let lastTime = performance.now();
-    let frameCount = 0;
-    
-    const measureFPS = () => {
-      frameCount++;
-      const currentTime = performance.now();
-      
-      if (currentTime - lastTime >= 1000) {
-        const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
-        if (fps < 30) {
-          console.warn(`⚠️ Low FPS detected: ${fps}`);
-        }
-        frameCount = 0;
-        lastTime = currentTime;
-      }
-      
-      requestAnimationFrame(measureFPS);
-    };
-    
-    requestAnimationFrame(measureFPS);
-  }
 
   // Cleanup method to remove all event listeners
   destroy() {
